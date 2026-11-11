@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI in D&amp;E: the illustrated plan</title>
+<meta name="description" content="The illustrated edition of PLAN.md: an AI adoption plan for a 60-developer .NET group.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+:root {
+  --bg: #F7F8FA; --surface: #FFFFFF; --ink: #1B2027; --ink-2: #5B6472; --line: #E1E5EB;
+  --accent: #C2410C; --accent-soft: rgba(194,65,12,.10);
+  --sev-crit: #B3261E; --sev-med: #B58105; --sev-low: #3B6E8F;
+  --good: #2E7D4F; --good-soft: rgba(46,125,79,.10); --code-bg: #EEF1F5;
+  --sans: 'Source Sans 3', system-ui, sans-serif;
+  --serif: 'Fraunces', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101317; --surface: #171B21; --ink: #E6E9EE; --ink-2: #9AA3B2; --line: #2A313B;
+    --accent: #F0873F; --accent-soft: rgba(240,135,63,.14);
+    --sev-crit: #FF6B62; --sev-med: #E5B73B; --sev-low: #7FB3D5;
+    --good: #5DBE8A; --good-soft: rgba(93,190,138,.14); --code-bg: #1F252D;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101317; --surface: #171B21; --ink: #E6E9EE; --ink-2: #9AA3B2; --line: #2A313B;
+  --accent: #F0873F; --accent-soft: rgba(240,135,63,.14);
+  --sev-crit: #FF6B62; --sev-med: #E5B73B; --sev-low: #7FB3D5;
+  --good: #5DBE8A; --good-soft: rgba(93,190,138,.14); --code-bg: #1F252D;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-underline-offset: 2px; }
+p { margin: 0 0 12px; }
+code { font-family: var(--mono); font-size: .88em; background: var(--code-bg); padding: 1px 5px; border-radius: 3px; }
+
+.page { max-width: 1120px; margin: 0 auto; padding: 32px 24px 96px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; }
+.rail { position: sticky; top: 24px; align-self: start; font-size: 14px; }
+.rail h4 { font: 600 12px/1.4 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); margin: 0 0 8px; }
+.rail ol { list-style: none; padding: 0; margin: 0; counter-reset: rail; }
+.rail li { margin: 6px 0; counter-increment: rail; }
+.rail li::before { content: counter(rail, decimal-leading-zero); font-family: var(--mono); font-size: 11px; color: var(--ink-2); margin-right: 8px; }
+.rail a { color: var(--ink-2); text-decoration: none; }
+.rail a:hover { color: var(--accent); text-decoration: underline; }
+@media (max-width: 900px) { .page { grid-template-columns: minmax(0, 1fr); padding: 24px 16px 72px; gap: 24px; } .rail { display: none; } }
+
+main > section { margin-top: 56px; }
+.prose { max-width: 68ch; }
+h1 { font: 600 40px/1.15 var(--serif); font-variation-settings: "opsz" 48; letter-spacing: -.01em; margin: 6px 0 14px; }
+h2 { font: 600 28px/1.25 var(--sans); margin: 0 0 12px; }
+h3 { font: 600 20px/1.3 var(--sans); margin: 0 0 6px; }
+.eyebrow, .label { font: 600 12px/1.4 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); }
+.label { display: block; margin-bottom: 8px; }
+.lede { font-size: 18px; line-height: 1.5; max-width: 62ch; }
+.caption { font-size: 14px; color: var(--ink-2); margin-top: 8px; }
+
+.strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 24px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.strip div { padding: 16px 18px; border-left: 1px solid var(--line); min-width: 0; }
+.strip div:first-child { border-left: 0; }
+.strip b { display: block; font: 600 34px/1.05 var(--serif); font-variation-settings: "opsz" 40; color: var(--ink); }
+.strip div:first-child b { color: var(--accent); }
+.strip span { font-size: 13px; color: var(--ink-2); }
+@media (max-width: 720px) { .strip { grid-template-columns: 1fr 1fr; } .strip div { border-left: 0; border-top: 1px solid var(--line); } }
+
+figure { margin: 20px 0 0; padding: 20px 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+figure svg { display: block; width: 100%; height: auto; }
+figcaption { font-size: 14px; color: var(--ink-2); margin-top: 10px; }
+details { font-size: 14px; color: var(--ink-2); margin-top: 8px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { text-align: left; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 12px/1.3 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); }
+td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
+
+.cards { display: grid; gap: 16px; margin-top: 16px; }
+.cards.three { grid-template-columns: repeat(3, 1fr); }
+.cards.five { grid-template-columns: repeat(5, 1fr); }
+@media (max-width: 720px) { .cards.three, .cards.five { grid-template-columns: 1fr; } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; font-size: 15px; min-width: 0; }
+.card h3 { font-size: 17px; }
+.card p:last-child { margin-bottom: 0; }
+.card .big { font: 600 30px/1.1 var(--serif); color: var(--accent); display: block; margin-bottom: 4px; }
+.card .src { font-size: 13px; color: var(--ink-2); }
+
+.star { border: 1px solid var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 18px 22px; margin-top: 20px; }
+.star b { font-size: 20px; line-height: 1.35; display: block; margin-bottom: 6px; }
+.star p { margin: 0; }
+.scene { border-left: 3px solid var(--accent); padding: 4px 0 4px 18px; font-size: 18px; line-height: 1.5; max-width: 62ch; margin: 0 0 16px; }
+
+.ladder { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; align-items: stretch; margin-top: 20px; }
+.rung { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: 6px; padding: 12px 14px; font-size: 14px; min-width: 0; }
+.rung .when { font-family: var(--mono); font-size: 12px; color: var(--accent); display: block; }
+.rung h3 { font-size: 16px; margin: 2px 0 6px; }
+.rung:nth-child(1) { margin-top: 72px; } .rung:nth-child(2) { margin-top: 54px; } .rung:nth-child(3) { margin-top: 36px; }
+.rung:nth-child(4) { margin-top: 18px; border-color: var(--good); border-top-color: var(--good); background: var(--good-soft); }
+.rung:nth-child(5) { border-style: dashed; border-top-style: solid; }
+@media (max-width: 720px) { .ladder { grid-template-columns: 1fr; } .rung:nth-child(n) { margin-top: 0; } }
+
+.flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 6px; margin-top: 14px; }
+.flow .step { flex: 1 1 110px; border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; background: var(--surface); font-size: 14px; }
+.flow .step b { display: block; font-size: 15px; }
+.flow .step .no { font-family: var(--mono); font-size: 11px; color: var(--ink-2); }
+.flow .step.hot { border-color: var(--accent); background: var(--accent-soft); }
+
+.layers { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 6px; }
+.layers li { border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 6px; background: var(--surface); padding: 9px 14px; font-size: 15px; }
+.layers li:nth-child(1) { margin-right: 0; } .layers li:nth-child(2) { margin-right: 8%; } .layers li:nth-child(3) { margin-right: 16%; } .layers li:nth-child(4) { margin-right: 24%; }
+.rules { counter-reset: rule; list-style: none; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.rules li { counter-increment: rule; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); padding: 12px 14px; font-size: 14px; }
+.rules li::before { content: counter(rule); display: block; font: 600 26px/1 var(--serif); color: var(--accent); margin-bottom: 6px; }
+@media (max-width: 720px) { .rules { grid-template-columns: 1fr; } }
+
+.tier { display: grid; grid-template-columns: 190px 1fr 120px; gap: 12px; align-items: center; font-size: 14px; margin-top: 10px; }
+.tier .bar { height: 14px; border-radius: 0 4px 4px 0; background: var(--accent); min-width: 3px; }
+.tier .v { font-family: var(--mono); font-size: 13px; color: var(--ink-2); }
+.robot { display: inline-flex; flex-direction: column; gap: 3px; padding: 4px; border-radius: 6px; background: var(--ink); vertical-align: middle; margin-right: 10px; }
+.robot i { width: 10px; height: 10px; border-radius: 50%; background: #5B6472; display: block; }
+.robot.red i:nth-child(1) { background: #FF6B62; } .robot.amber i:nth-child(2) { background: #E5B73B; } .robot.green i:nth-child(3) { background: #5DBE8A; }
+.help { display: grid; gap: 8px; margin-top: 14px; }
+.help div { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); padding: 10px 14px; font-size: 15px; }
+.method { margin-top: 64px; border-top: 1px solid var(--line); padding-top: 20px; font-size: 13px; color: var(--ink-2); }
+.method ul { margin: 6px 0 0; padding-left: 18px; }
+
+@page { size: A4; margin: 13mm 14mm; }
+@media print {
+  body { font-size: 12px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { display: block; max-width: none; padding: 0; }
+  .rail { display: none; }
+  main > section { margin-top: 26px; }
+  h1 { font-size: 32px; } h2 { font-size: 21px; } .lede, .scene { font-size: 14.5px; }
+  figure, .card, .rung, .star, .strip, .layers, .rules, tr, .help div { break-inside: avoid; }
+  h2, h3, .label { break-after: avoid; }
+  details { display: none; }
+  figure svg { max-width: 560px; margin: 0 auto; }
+  figure { padding: 14px 16px; margin-top: 14px; } .card { padding: 12px 14px; font-size: 12px; } .cards { gap: 10px; margin-top: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <aside class="rail" aria-label="Contents">
+    <h4>On this page</h4>
+    <ol>
+      <li><a href="#story">Where I'm coming from</a></li>
+      <li><a href="#evidence">What the evidence says</a></li>
+      <li><a href="#stance">One company plugin</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="#security">Strict security</a></li>
+      <li><a href="#people">People and rollout</a></li>
+      <li><a href="#measure">Measuring</a></li>
+      <li><a href="#pilot">The pilot in this repo</a></li>
+      <li><a href="#assume">Assumptions and sources</a></li>
+    </ol>
+  </aside>
+
+  <main>
+    <div class="eyebrow">AI adoption plan · for the Head of D&amp;E · illustrated edition of PLAN.md</div>
+    <h1>AI in D&amp;E: make it work, then make it better</h1>
+    <p class="lede">One small platform team builds one plugin. Every team's AI tool loads it, so the guard rails, the know-how and the measuring all arrive together. We start at code review, prove it on one team, and widen when the numbers say so.</p>
+
+    <section id="story">
+      <span class="label">Where I'm coming from</span>
+      <h2>I've run this play, and the numbers moved</h2>
+      <div class="prose">
+        <p>Before any of this was my job, I spent a year and a half using AI coding tools on my own time, learning the hard way. For the past eight months I've done it for real at my current employer, replacing an old C++ desktop client with a web application. The first six weeks held no product code: proofs of concept, design guidelines, and a showcase that won the go-ahead.</p>
+      </div>
+      <div class="strip" role="group" aria-label="The project in numbers">
+        <div><b>8</b><span>months</span></div>
+        <div><b>8</b><span>contributors</span></div>
+        <div><b>3,437</b><span>commits</span></div>
+        <div><b>4</b><span>agent lanes</span></div>
+        <div><b>18</b><span>quality gates before the main branch</span></div>
+      </div>
+      <figure>
+        <span class="label">Commits per month, May to October 2026</span>
+        <svg viewBox="0 0 640 250" role="img" aria-label="Bar chart of commits per month: May 85, June 191, July 436, August 513, September 682, October 1,165.">
+          <line x1="32" y1="220" x2="608" y2="220" stroke="var(--line)" stroke-width="1"/>
+          <g fill="var(--accent)">
+            <path d="M48,220 V210.9 Q48,206.9 52,206.9 H100 Q104,206.9 104,210.9 V220 Z"><title>May: 85 commits</title></path>
+            <path d="M144,220 V194.5 Q144,190.5 148,190.5 H196 Q200,190.5 200,194.5 V220 Z"><title>June: 191 commits</title></path>
+            <path d="M240,220 V156.6 Q240,152.6 244,152.6 H292 Q296,152.6 296,156.6 V220 Z"><title>July: 436 commits</title></path>
+            <path d="M336,220 V144.7 Q336,140.7 340,140.7 H388 Q392,140.7 392,144.7 V220 Z"><title>August: 513 commits</title></path>
+            <path d="M432,220 V118.6 Q432,114.6 436,114.6 H484 Q488,114.6 488,118.6 V220 Z"><title>September: 682 commits</title></path>
+            <path d="M528,220 V44 Q528,40 532,40 H580 Q584,40 584,44 V220 Z"><title>October: 1,165 commits</title></path>
+          </g>
+          <g font-family="'JetBrains Mono', ui-monospace, monospace" font-size="13" fill="var(--ink)" text-anchor="middle">
+            <text x="76" y="199">85</text><text x="172" y="183">191</text><text x="268" y="145">436</text>
+            <text x="364" y="133">513</text><text x="460" y="107">682</text><text x="556" y="32">1,165</text>
+          </g>
+          <g font-family="'Source Sans 3', system-ui, sans-serif" font-size="13" fill="var(--ink-2)" text-anchor="middle">
+            <text x="76" y="240">May</text><text x="172" y="240">Jun</text><text x="268" y="240">Jul</text>
+            <text x="364" y="240">Aug</text><text x="460" y="240">Sep</text><text x="556" y="240">Oct</text>
+          </g>
+        </svg>
+        <figcaption>The rate climbed every month, and not because anyone typed faster. It climbed because each month we put more rules and checks around the AI.</figcaption>
+        <details><summary>The same numbers as a table</summary>
+          <table><tr><th>Month</th><th>Commits</th></tr>
+            <tr><td>May</td><td class="n">85</td></tr><tr><td>June</td><td class="n">191</td></tr><tr><td>July</td><td class="n">436</td></tr>
+            <tr><td>August</td><td class="n">513</td></tr><tr><td>September</td><td class="n">682</td></tr><tr><td>October</td><td class="n">1,165</td></tr></table>
+        </details>
+      </figure>
+      <div class="prose" style="margin-top:16px">
+        <p><strong>The honest caveat.</strong> That was eight people on brand-new code, in Kotlin. You have 60 developers on .NET systems with history. So I checked the lesson against outside evidence.</p>
+      </div>
+    </section>
+
+    <section id="evidence">
+      <span class="label">What the evidence says</span>
+      <h2>Three findings, and they point the same way</h2>
+      <div class="cards three">
+        <div class="card">
+          <h3>AI is an amplifier</h3>
+          <p>DORA 2025 asked nearly 5,000 people. AI magnifies what a strong organisation does well and what a struggling one does badly. Throughput goes up; so does instability.</p>
+          <p class="src"><a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">DORA, State of AI-assisted Software Development 2025</a></p>
+        </div>
+        <div class="card">
+          <h3>Feeling fast isn't being fast</h3>
+          <p>In METR's early-2025 trial, experienced developers reckoned AI had made them 20% faster. The stopwatch said they took 19% longer. METR now calls that result out of date, but the lesson holds: measure, don't guess.</p>
+          <p class="src"><a href="https://arxiv.org/abs/2507.09089">METR trial</a> · <a href="https://metr.org/blog/2026-02-24-uplift-update/">2026 update</a></p>
+        </div>
+        <div class="card">
+          <h3>The ones who got far built the rails first</h3>
+          <p>Spotify has merged more than 1,500 agent-written pull requests, starting with migrations. At Stripe, over 1,300 a week are agent-written, each reviewed by a person.</p>
+          <p class="src"><a href="https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1">Spotify</a> · <a href="https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2">Stripe</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="stance">
+      <span class="label">The stance</span>
+      <h2>One company plugin</h2>
+      <p class="scene">Picture a developer's first morning. They install one thing, and from then on their AI assistant knows our standards, refuses to open the secrets file, and reports what it costs.</p>
+      <div class="prose">
+        <p>That one thing is a Claude Code <strong>plugin</strong>: rules, skills (ready-made recipes for a task) and automatic checks, owned by a small AI platform team and locked on by central settings. It's the toolbox bolted to every bakkie: same tools, same safety gear, whoever's driving. The standard is enforced by the tool, not by a memo.</p>
+      </div>
+      <figure>
+        <svg viewBox="0 0 720 250" role="img" aria-label="Diagram: the AI platform team owns one plugin holding guard rails, skills, checks and the metrics export. Managed settings lock it on. Every team's Claude Code loads it.">
+          <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--ink-2)"/></marker></defs>
+          <g font-family="'Source Sans 3', system-ui, sans-serif">
+            <rect x="8" y="88" width="150" height="74" rx="6" fill="var(--surface)" stroke="var(--line)"/>
+            <text x="83" y="120" text-anchor="middle" font-size="15" font-weight="600" fill="var(--ink)">AI platform team</text>
+            <text x="83" y="140" text-anchor="middle" font-size="13" fill="var(--ink-2)">owns and releases it</text>
+            <line x1="160" y1="125" x2="212" y2="125" stroke="var(--ink-2)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+            <rect x="216" y="40" width="250" height="170" rx="6" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="341" y="64" text-anchor="middle" font-size="15" font-weight="600" fill="var(--ink)">The company plugin</text>
+            <g font-size="13" fill="var(--ink)">
+              <rect x="232" y="76" width="218" height="26" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="244" y="94">Guard rails: what an agent may touch</text>
+              <rect x="232" y="108" width="218" height="26" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="244" y="126">Skills: review, test, BA recipes</text>
+              <rect x="232" y="140" width="218" height="26" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="244" y="158">Checks: hooks that block an action</text>
+              <rect x="232" y="172" width="218" height="26" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="244" y="190">Metrics: usage and cost export</text>
+            </g>
+            <text x="341" y="28" text-anchor="middle" font-size="13" fill="var(--ink-2)">Managed settings lock it on. Nobody can switch it off.</text>
+
+            <g font-size="14" fill="var(--ink)">
+              <line x1="468" y1="125" x2="548" y2="62" stroke="var(--ink-2)" stroke-width="1.5" marker-end="url(#arr)"/>
+              <line x1="468" y1="125" x2="548" y2="125" stroke="var(--ink-2)" stroke-width="1.5" marker-end="url(#arr)"/>
+              <line x1="468" y1="125" x2="548" y2="188" stroke="var(--ink-2)" stroke-width="1.5" marker-end="url(#arr)"/>
+              <rect x="552" y="40" width="160" height="44" rx="6" fill="var(--surface)" stroke="var(--line)"/><text x="632" y="67" text-anchor="middle">Product team</text>
+              <rect x="552" y="103" width="160" height="44" rx="6" fill="var(--surface)" stroke="var(--line)"/><text x="632" y="130" text-anchor="middle">QA and BA</text>
+              <rect x="552" y="166" width="160" height="44" rx="6" fill="var(--surface)" stroke="var(--line)"/><text x="632" y="193" text-anchor="middle">Every other team</text>
+            </g>
+            <text x="632" y="232" text-anchor="middle" font-size="13" fill="var(--ink-2)">same tools, same safety gear</text>
+          </g>
+        </svg>
+      </figure>
+      <div class="star">
+        <b>North star: agents write. People own the specs, the architecture and the review.</b>
+        <p>A person stays accountable at every step, and speed without gates costs you stability.</p>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <span class="label">1a. Roadmap</span>
+      <h2>Three plugin releases, one promise, one prize</h2>
+      <div class="ladder">
+        <div class="rung"><span class="when">Month 3</span><h3>Plugin 1: the strong starter</h3>On a pilot group. Review and test skills, BA skills for Scrum and Jira, guard rails, the metrics export, and an <em>Issue lane</em>: an agent makes a small fix, a person approves it.</div>
+        <div class="rung"><span class="when">Month 6–9</span><h3>Plugin 2</h3>Plugin 1 on every team. Design-first pipelines for small UI and API work.</div>
+        <div class="rung"><span class="when">Month 12</span><h3>Plugin 3</h3>On pilot teams: the full <em>Feature lane</em>. One C++ to C# migration stream starts.</div>
+        <div class="rung"><span class="when">Month 18</span><h3>The promise</h3>Small fixes, tests and migrations are agent-written and human-approved on every team.</div>
+        <div class="rung"><span class="when">Beyond</span><h3>The prize</h3>Spec to pull request, agent-driven by default. No date on this one.</div>
+      </div>
+
+      <h3 style="margin-top:28px">The first 90 days, up close</h3>
+      <div class="cards three">
+        <div class="card"><span class="label">Weeks 1–2 · measure</span>Baseline from git, Jira and the pipelines. First survey. The security pack goes in.</div>
+        <div class="card"><span class="label">Weeks 3–6 · start small</span>A pilot group of 6 to 8: one product team with its QA and BA. Plugin 1 in daily use. First workshop.</div>
+        <div class="card"><span class="label">Weeks 7–12 · prove it</span>The Issue lane runs. First scorecard against the baseline. Second survey. Then we decide: widen, adjust or stop.</div>
+      </div>
+
+      <div class="cards three" style="margin-top:24px; grid-template-columns: 1fr 1fr;">
+        <div class="card"><h3>Why start at review and testing?</h3><p>Copilot already helps there, so it's a small first step. Gates must exist before the speed arrives: you get the fire right before the meat goes on. And the pilot in this repo <em>is</em> a review tool, a working piece of Plugin 1.</p></div>
+        <div class="card"><h3>Build, buy or SaaS?</h3><p>Buy the model and the agent runtime. Build only the thin layer that holds <em>our</em> standards: the plugin. Take SaaS only when the vendor passes the same security pack. Three questions settle it: does it set us apart, does data leave South Africa, and what does it cost to leave?</p></div>
+      </div>
+    </section>
+
+    <section id="security">
+      <span class="label">1b. Rolling out Claude Code under strict security</span>
+      <h2>Security's first question: what leaves the building?</h2>
+      <figure>
+        <svg viewBox="0 0 720 236" role="img" aria-label="Diagram: on the developer's machine a code change passes a redaction step before a prompt is built. A hook blocks secrets, keys and production settings. Only the redacted prompt crosses to the model, which runs outside South Africa. The review comes back as text.">
+          <defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--ink-2)"/></marker></defs>
+          <g font-family="'Source Sans 3', system-ui, sans-serif">
+            <text x="10" y="16" font-size="12" font-weight="600" fill="var(--ink-2)" letter-spacing=".06em">THE DEVELOPER'S MACHINE</text>
+            <rect x="8" y="26" width="424" height="176" rx="6" fill="var(--surface)" stroke="var(--line)"/>
+            <g font-size="14" fill="var(--ink)">
+              <rect x="22" y="50" width="108" height="46" rx="6" fill="var(--surface)" stroke="var(--line)"/><text x="76" y="78" text-anchor="middle">Code change</text>
+              <line x1="132" y1="73" x2="160" y2="73" stroke="var(--ink-2)" stroke-width="1.5" marker-end="url(#arr2)"/>
+              <rect x="164" y="50" width="122" height="46" rx="6" fill="var(--good-soft)" stroke="var(--good)"/><text x="225" y="78" text-anchor="middle">Redaction step</text>
+              <line x1="288" y1="73" x2="316" y2="73" stroke="var(--ink-2)" stroke-width="1.5" marker-end="url(#arr2)"/>
+              <rect x="320" y="50" width="98" height="46" rx="6" fill="var(--surface)" stroke="var(--line)"/><text x="369" y="78" text-anchor="middle">Prompt</text>
+              <rect x="22" y="126" width="396" height="58" rx="6" fill="var(--surface)" stroke="var(--sev-crit)" stroke-dasharray="5 4"/>
+              <text x="36" y="150" font-weight="600">Stays inside. A hook and managed settings block:</text>
+              <text x="36" y="170" fill="var(--ink-2)">secrets and keys · personal information · production settings</text>
+            </g>
+            <line x1="492" y1="30" x2="492" y2="198" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="6 5"/>
+            <text x="492" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="var(--accent)" letter-spacing=".06em">THE EDGE OF THE BUILDING</text>
+            <line x1="420" y1="64" x2="574" y2="64" stroke="var(--ink-2)" stroke-width="1.5" marker-end="url(#arr2)"/>
+            <line x1="578" y1="84" x2="424" y2="84" stroke="var(--ink-2)" stroke-width="1.5" marker-end="url(#arr2)"/>
+            <g font-size="12" fill="var(--ink-2)" text-anchor="middle" stroke="var(--surface)" stroke-width="5" paint-order="stroke" stroke-linejoin="round">
+              <text x="498" y="52">redacted prompt only</text>
+              <text x="498" y="104">review text back</text>
+            </g>
+            <rect x="580" y="42" width="132" height="64" rx="6" fill="var(--surface)" stroke="var(--line)"/>
+            <text x="646" y="69" text-anchor="middle" font-size="15" font-weight="600" fill="var(--ink)">The model</text>
+            <text x="646" y="89" text-anchor="middle" font-size="13" fill="var(--ink-2)">outside South Africa</text>
+          </g>
+        </svg>
+        <figcaption>The pilot in this repository shows both controls: a redaction step in the tool, and a blocking hook in the plugin.</figcaption>
+      </figure>
+
+      <div class="cards" style="grid-template-columns: 1fr 1fr; align-items: start;">
+        <div class="card">
+          <h3>What I put in front of security</h3>
+          <ol style="margin:6px 0 0; padding-left:20px;">
+            <li>A picture of exactly what leaves a developer's machine, and where it goes.</li>
+            <li>The vendor's retention terms, in writing.</li>
+            <li>Our answer to POPIA section 72. Personal information may not go to a third party in a foreign country unless a listed ground applies, and location information counts as personal. Plan on the model running outside South Africa, so <strong>no personal information reaches a prompt</strong>.</li>
+            <li>The managed settings: what the agent may read and run, the plugin lock, the usage export.</li>
+            <li>The pilot's scope, and how we switch it off.</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h3>Risks I expect, and what stops each one</h3>
+          <table>
+            <tr><td>Personal data or secrets in a prompt</td><td>A redaction step, and a hook that blocks the read</td></tr>
+            <tr><td>Instructions hidden in repo content</td><td>Code is treated as data; a person reviews every change</td></tr>
+            <tr><td>An agent with too many permissions</td><td>Managed settings: a short allow-list, no bypass mode</td></tr>
+            <tr><td>Runaway cost</td><td>A model pinned to each job; spend on the scorecard</td></tr>
+            <tr><td>Tools nobody approved</td><td>Only the approved plugin source is allowed</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <h3 style="margin-top:28px">The house rules</h3>
+      <ol class="rules">
+        <li>No personal information or secrets in a prompt.</li>
+        <li>A person reviews and owns every change. An agent never approves its own work.</li>
+        <li>Agent code passes the same pipeline gates as everyone else's.</li>
+        <li>Approved tools, models and plugins only.</li>
+        <li>Say when an agent wrote it.</li>
+      </ol>
+
+      <h3 style="margin-top:28px">Making them stick: four layers, strongest first</h3>
+      <ul class="layers">
+        <li><strong>Managed settings</strong> nobody can override</li>
+        <li><strong>Hooks</strong> that block an action before it happens</li>
+        <li><strong>Gates</strong> that fail a build</li>
+        <li><strong>Review</strong> by a person</li>
+      </ul>
+      <p class="caption">A missing rule gets a rule and a check, not a reminder email.</p>
+    </section>
+
+    <section id="people">
+      <span class="label">1b, continued. People, rollout and Copilot</span>
+      <h2>Bring the people along</h2>
+      <div class="cards three">
+        <div class="card"><span class="big">Weekly</span>A short bulletin: AI drafts it from the merge history, a person presses send, and it sounds like us. It teases the work, never the person.</div>
+        <div class="card"><span class="big">Monthly</span>A workshop: one thing that worked, one that flopped.</div>
+        <div class="card"><span class="big">Quarterly</span>A survey on confidence, friction and trust.</div>
+      </div>
+      <div class="cards three" style="margin-top:16px">
+        <div class="card"><h3>Rollout and stepping out</h3><p>The pilot group learns on its own tickets, not on slides. Each later team gets a champion the pilot group trained. I'm done when D&amp;E people run the plugin releases, every team has a champion, and someone else publishes the scorecard.</p></div>
+        <div class="card"><h3>Copilot</h3><p>It stays until Claude Code is approved. The pilot group runs both for one cycle and reports the difference. Teams move over at licence renewal, so nobody pays twice for long.</p></div>
+        <div class="card"><h3>Design</h3><p>Plugin 2 carries design skills: one library of screen building blocks and brand rules, plus a critic step, so AI-built screens look like one product.</p></div>
+      </div>
+    </section>
+
+    <section id="measure">
+      <span class="label">1c. Measuring adoption, value, quality and cost</span>
+      <h2>One scorecard per team, and no league table</h2>
+      <figure>
+        <table>
+          <tr><th>Axis</th><th>What we track</th></tr>
+          <tr><td><strong>Adoption</strong></td><td>Active users each week; teams on the plugin</td></tr>
+          <tr><td><strong>Usage</strong></td><td>Lane runs; the mix of small, middle and large models</td></tr>
+          <tr><td><strong>Value</strong></td><td>Lead time for a change; review turnaround</td></tr>
+          <tr><td><strong>Quality</strong></td><td>Change failure rate; escaped defects; gate pass rate; share of agent pull requests accepted</td></tr>
+          <tr><td><strong>Cost</strong></td><td>Spend per developer; cost per merged change</td></tr>
+          <tr><td><strong>Feeling</strong></td><td>The quarterly survey</td></tr>
+        </table>
+        <figcaption>Borrowed from DORA and SPACE, plus what only AI work needs. Each team sees its own card. This isn't the Currie Cup.</figcaption>
+      </figure>
+
+      <div class="cards" style="grid-template-columns: 1fr 1fr; align-items: start;">
+        <div class="card">
+          <h3>Baseline and return</h3>
+          <p>Four to six weeks of history set the baseline, and the pilot group is compared with teams that haven't started.</p>
+          <p><code>return = hours saved × loaded cost − licences − platform team</code></p>
+          <p>I report measured speed, not felt speed.</p>
+        </div>
+        <div class="card">
+          <h3>A red robot means "send help", not "send blame"</h3>
+          <div class="help">
+            <div><span class="robot red" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>Low use, low trust</strong> gets pairing time.</span></div>
+            <div><span class="robot red" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>High use, rising failure rate</strong> gets tighter gates.</span></div>
+            <div><span class="robot amber" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>High cost per change</strong> gets a look at the model mix.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <figure>
+        <span class="label">Tiered models are the cost lever · relative price on short prompts</span>
+        <div class="tier"><span><strong>Small</strong> · Haiku 5.5<br><span class="v">runs the checks</span></span><div><div class="bar" style="width:2.5%"></div></div><span class="v">1× · 7 agents</span></div>
+        <div class="tier"><span><strong>Middle</strong> · Sonnet 5.5<br><span class="v">does the daily work</span></span><div><div class="bar" style="width:50%"></div></div><span class="v">20× · 9 agents</span></div>
+        <div class="tier"><span><strong>Large</strong> · Opus 5.5<br><span class="v">plans and judges</span></span><div><div class="bar" style="width:100%"></div></div><span class="v">40× · 4 agents</span></div>
+        <figcaption>Price follows model size, so the plugin pins a size to each job. Prices from <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic's price list</a>, 11 November 2026. The agent counts are from my project.</figcaption>
+      </figure>
+    </section>
+
+    <section id="pilot">
+      <span class="label">The pilot in this repository</span>
+      <h2>One working piece of Plugin 1</h2>
+      <div class="prose"><p>The review assistant in <code>src/</code> is the plan in miniature: a change goes in, sensitive values come out before any prompt exists, and a person gets advice, not a verdict.</p></div>
+      <div class="flow">
+        <div class="step"><span class="no">1</span><b>Read</b>the change set</div>
+        <div class="step"><span class="no">2</span><b>Redact</b>secrets and personal information</div>
+        <div class="step"><span class="no">3</span><b>Prompt</b>the rubric and the change</div>
+        <div class="step hot"><span class="no">4 · extension point</span><b>Provider</b>simulated by default; Claude Code opt-in</div>
+        <div class="step"><span class="no">5</span><b>Parse</b>and distrust the reply</div>
+        <div class="step"><span class="no">6</span><b>Render</b>review.md</div>
+      </div>
+      <p class="caption">Details in <a href="../SOLUTION.md">SOLUTION.md</a>. The mini plugin is in <a href="../plugin/README.md">plugin/</a>.</p>
+    </section>
+
+    <section id="assume">
+      <span class="label">What I'm assuming</span>
+      <h2>Four assumptions</h2>
+      <div class="cards" style="grid-template-columns: 1fr 1fr;">
+        <div class="card">Security approval lands by about week 3. If later, the dates slide and the pilot group applies the same standards with Copilot.</div>
+        <div class="card">Tests and pipelines are in fair shape. If not, tests come first.</div>
+        <div class="card">The company holds customer location data, so POPIA applies. Compliance confirms any other regulator.</div>
+        <div class="card">The milestones run to month 12. Month 18 is where they lead.</div>
+      </div>
+
+      <div class="method">
+        <span class="label">Sources, all read on 11 November 2026</span>
+        <ul>
+          <li><a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">DORA, State of AI-assisted Software Development 2025</a></li>
+          <li><a href="https://arxiv.org/abs/2507.09089">METR, early-2025 developer productivity trial</a> and its <a href="https://metr.org/blog/2026-02-24-uplift-update/">February 2026 update</a></li>
+          <li><a href="https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1">Spotify engineering, background coding agent, part 1</a></li>
+          <li><a href="https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2">Stripe, Minions, part 2</a></li>
+          <li><a href="https://www.gov.za/sites/default/files/gcis_document/201409/3706726-11act4of2013popi.pdf">Protection of Personal Information Act 4 of 2013</a>, sections 1 and 72</li>
+          <li><a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic pricing</a> · <a href="https://code.claude.com/docs/en/plugins/org">Claude Code plugins for organisations</a> · <a href="https://code.claude.com/docs/en/monitoring-usage">Claude Code usage monitoring</a></li>
+        </ul>
+        <p style="margin-top:10px">This is the illustrated edition of <a href="../PLAN.md">PLAN.md</a>. The words are the same; the pictures are extra.</p>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>
