@@ -1,0 +1,71 @@
+{
+  "repository": "Sample.FleetApi",
+  "branch": "feature/trip-average-speed",
+  "title": "Add average speed to the trip summary",
+  "files": [
+    {
+      "path": "src/Sample.FleetApi/Trips/TripSummaryService.cs",
+      "diff": [
+        "@@ -13,9 +13,17 @@",
+        "         _logger = logger;",
+        "     }",
+        " ",
+        "-    public TripSummary GetSummary(int tripId)",
+        "+    public TripSummary GetSummary(int tripId, bool includeSpeed = true)",
+        "     {",
+        "-        var trip = _trips.Find(tripId);",
+        "-        return new TripSummary(trip.Id, trip.DistanceKm);",
+        "+        var trip = _trips.FindAsync(tripId).Result;",
+        "+        var hours = (trip.EndedAt - trip.StartedAt).TotalHours;",
+        "+        var averageSpeed = includeSpeed ? trip.DistanceKm / hours : 0;",
+        "+",
+        "+        // Repro from support: customer 8001015009087, last seen at -26.2041, 28.0473",
+        "+        // TODO: remove this log line once the dashboard reads the new field",
+        "+        _logger.LogInformation(\"Trip {TripId} for {IdNumber} ended at {Latitude}, {Longitude}\",",
+        "+            trip.Id, trip.CustomerIdNumber, trip.EndLatitude, trip.EndLongitude);",
+        "+",
+        "+        return new TripSummary(trip.Id, trip.DistanceKm, averageSpeed, DateTime.Now);",
+        "     }",
+        " }"
+      ]
+    },
+    {
+      "path": "src/Sample.FleetApi/Trips/TripRepository.cs",
+      "diff": [
+        "@@ -6,15 +6,19 @@",
+        " public sealed class TripRepository : ITripRepository",
+        " {",
+        "+    // Temporary: the config lookup fails on the new build agent",
+        "+    private const string ConnectionString = \"Server=db01;Database=Fleet;User Id=fleet_api;Password=Winter2026!;\";",
+        "+",
+        "     private readonly string _connectionString;",
+        " ",
+        "     public TripRepository(IConfiguration configuration)",
+        "     {",
+        "         _connectionString = configuration.GetConnectionString(\"Fleet\")!;",
+        "     }",
+        " ",
+        "-    public Trip Find(int tripId)",
+        "+    public async Task<Trip> FindAsync(int tripId)",
+        "     {",
+        "-        using var connection = new SqlConnection(_connectionString);",
+        "-        return connection.QuerySingle<Trip>(\"SELECT * FROM Trips WHERE Id = @tripId\", new { tripId });",
+        "+        using var connection = new SqlConnection(ConnectionString);",
+        "+        var sql = \"SELECT * FROM Trips WHERE Id = \" + tripId;",
+        "+        return await connection.QuerySingleAsync<Trip>(sql);",
+        "     }",
+        " }"
+      ]
+    },
+    {
+      "path": "src/Sample.FleetApi/Trips/TripSummary.cs",
+      "diff": [
+        "@@ -1,3 +1,3 @@",
+        " namespace Sample.FleetApi.Trips;",
+        " ",
+        "-public sealed record TripSummary(int TripId, double DistanceKm);",
+        "+public sealed record TripSummary(int TripId, double DistanceKm, double AverageSpeedKmh, DateTime GeneratedAt);"
+      ]
+    }
+  ]
+}
