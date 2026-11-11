@@ -1,0 +1,14 @@
+{
+  "name": "company-plugins",
+  "description": "Sample marketplace for the company starter plugin described in PLAN.md.",
+  "owner": {
+    "name": "AI platform team"
+  },
+  "plugins": [
+    {
+      "name": "company-starter",
+      "source": "./company-starter",
+      "description": "The starter every team loads: one review skill and one guard-rail hook."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "extraKnownMarketplaces": {
+    "company-plugins": {
+      "source": { "source": "github", "repo": "your-org/claude-plugins" },
+      "autoUpdate": true
+    }
+  },
+  "enabledPlugins": {
+    "company-starter@company-plugins": true
+  },
+  "strictKnownMarketplaces": [
+    { "source": "github", "repo": "your-org/claude-plugins" }
+  ],
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)"
+    ],
+    "disableBypassPermissionsMode": "disable"
+  },
+  "allowManagedPermissionRulesOnly": true,
+  "env": {
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
+    "OTEL_METRICS_EXPORTER": "otlp",
+    "OTEL_LOGS_EXPORTER": "otlp",
+    "OTEL_EXPORTER_OTLP_PROTOCOL": "grpc",
+    "OTEL_EXPORTER_OTLP_ENDPOINT": "http://otel-collector.internal.example:4317"
+  }
+}

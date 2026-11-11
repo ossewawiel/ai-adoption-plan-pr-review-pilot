@@ -25,4 +25,9 @@
     <Content Include="..\..\samples\changeset.json" Link="samples\changeset.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <!-- The rubric test compares the plugin's skill with the rubric in the code. -->
+  <ItemGroup>
+    <Content Include="..\..\plugin\company-starter\skills\review-dotnet-change\SKILL.md" Link="plugin\SKILL.md" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

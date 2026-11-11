@@ -1,0 +1,6 @@
+{
+  "name": "company-starter",
+  "version": "0.1.0",
+  "description": "A mini version of Plugin 1 from PLAN.md: a .NET review skill and a hook that keeps secrets out of the agent's reach.",
+  "author": { "name": "AI platform team" }
+}
