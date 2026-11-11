@@ -37,6 +37,9 @@ public interface IReviewProvider
 /// <summary>What a provider is given. It only ever holds redacted input.</summary>
 public sealed record ReviewRequest(string Prompt, RedactedChangeSet Input);
 
+/// <summary>A provider could not produce a reply. The message is safe to show the user.</summary>
+public sealed class ReviewProviderException(string message) : Exception(message);
+
 /// <summary>Step 5. Turns a provider's reply into a <see cref="Review"/>, and distrusts it while doing so.</summary>
 public interface IReviewParser
 {

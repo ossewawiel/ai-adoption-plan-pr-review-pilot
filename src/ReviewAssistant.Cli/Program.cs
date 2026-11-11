@@ -1,13 +1,13 @@
 ﻿using ReviewAssistant.Core;
 using ReviewAssistant.Providers;
 
-// review <change-set.json> [--out <file.md>] [--provider simulated] [--show-prompt]
-
 const string Usage = """
-    Usage: review <change-set.json> [--out <file.md>] [--provider <name>] [--show-prompt]
+    Usage: review <change-set.json> [--out <file.md>] [--provider <name>] [--model <name>] [--show-prompt]
 
       --out          where to write the review (default: review.md)
-      --provider     simulated (default; no network)
+      --provider     simulated    pattern rules, no network (default)
+                     claude-code  runs Claude Code headless; sends the redacted change set to Claude
+      --model        model for the claude-code provider (default: Claude Code's own default)
       --show-prompt  also print the exact text a provider is sent
     """;
 
@@ -20,6 +20,7 @@ if (args.Length == 0 || args[0] is "-h" or "--help")
 var changeSetPath = args[0];
 var outputPath = "review.md";
 var providerName = "simulated";
+string? model = null;
 var showPrompt = false;
 
 for (var i = 1; i < args.Length; i++)
@@ -31,6 +32,9 @@ for (var i = 1; i < args.Length; i++)
             break;
         case "--provider" when i + 1 < args.Length:
             providerName = args[++i];
+            break;
+        case "--model" when i + 1 < args.Length:
+            model = args[++i];
             break;
         case "--show-prompt":
             showPrompt = true;
@@ -46,6 +50,7 @@ for (var i = 1; i < args.Length; i++)
 IReviewProvider? provider = providerName switch
 {
     "simulated" => new SimulatedReviewProvider(),
+    "claude-code" => new ClaudeCodeReviewProvider(model),
     _ => null,
 };
 
@@ -53,6 +58,11 @@ if (provider is null)
 {
     Console.Error.WriteLine($"Unknown provider: {providerName}");
     return 2;
+}
+
+if (provider is ClaudeCodeReviewProvider)
+{
+    Console.WriteLine("Note: the claude-code provider sends the redacted change set to Claude through your Claude Code login.");
 }
 
 try
@@ -72,7 +82,7 @@ try
     Console.WriteLine($"Items: {result.Review.In(Section.Suggestion).Count()} suggestions, {result.Review.In(Section.Risk).Count()} risks");
     return 0;
 }
-catch (Exception error) when (error is InvalidChangeSetException or ReviewParseException)
+catch (Exception error) when (error is InvalidChangeSetException or ReviewParseException or ReviewProviderException)
 {
     Console.Error.WriteLine(error.Message);
     return 1;
