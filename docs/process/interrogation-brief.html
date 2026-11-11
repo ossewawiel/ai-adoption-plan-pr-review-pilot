@@ -1,0 +1,1195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Lead take-home — interrogation</title>
+<meta name="description" content="Scrubbed public copy of the question-and-answer brief for an AI Lead take-home assignment: plan plus review factory.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+:root {
+  --bg: #F7F8FA;
+  --surface: #FFFFFF;
+  --ink: #1B2027;
+  --ink-2: #5B6472;
+  --line: #E1E5EB;
+  --accent: #C2410C;
+  --accent-soft: rgba(194,65,12,.10);
+  --sev-crit: #B3261E;
+  --sev-high: #C2410C;
+  --sev-med: #B58105;
+  --sev-low: #3B6E8F;
+  --good: #2E7D4F;
+  --good-soft: rgba(46,125,79,.10);
+  --code-bg: #EEF1F5;
+  --chip-ink: #FFFFFF;
+  --sans: 'Source Sans 3', system-ui, sans-serif;
+  --serif: 'Fraunces', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101317; --surface: #171B21; --ink: #E6E9EE; --ink-2: #9AA3B2;
+    --line: #2A313B; --accent: #F0873F; --accent-soft: rgba(240,135,63,.14);
+    --sev-crit: #FF6B62; --sev-high: #F0873F; --sev-med: #E5B73B; --sev-low: #7FB3D5;
+    --good: #5DBE8A; --good-soft: rgba(93,190,138,.14); --code-bg: #1F252D;
+    --chip-ink: #101317;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101317; --surface: #171B21; --ink: #E6E9EE; --ink-2: #9AA3B2;
+  --line: #2A313B; --accent: #F0873F; --accent-soft: rgba(240,135,63,.14);
+  --sev-crit: #FF6B62; --sev-high: #F0873F; --sev-med: #E5B73B; --sev-low: #7FB3D5;
+  --good: #5DBE8A; --good-soft: rgba(93,190,138,.14); --code-bg: #1F252D;
+  --chip-ink: #101317;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+code, .mono { font-family: var(--mono); font-size: .92em; background: var(--code-bg); padding: 1px 5px; border-radius: 3px; }
+p { margin: 0 0 12px; }
+
+.page { max-width: 1120px; margin: 0 auto; padding: 32px 24px 96px; display: grid; grid-template-columns: 220px 1fr; gap: 48px; }
+@media (max-width: 900px) {
+  .page { grid-template-columns: 1fr; padding: 24px 16px 96px; gap: 24px; }
+  .rail { display: none; }
+}
+.rail { position: sticky; top: 24px; align-self: start; font-size: 14px; }
+.rail h4 { font: 600 12px/1.4 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); margin: 0 0 8px; }
+.rail ol { list-style: none; padding: 0; margin: 0; counter-reset: rail; }
+.rail li { margin: 6px 0; counter-increment: rail; }
+.rail li::before { content: counter(rail, decimal-leading-zero); font-family: var(--mono); font-size: 11px; color: var(--ink-2); margin-right: 8px; }
+.rail a { color: var(--ink-2); text-decoration: none; }
+.rail a:hover { color: var(--accent); text-decoration: underline; }
+
+.main { min-width: 0; }
+.main > section { max-width: 68ch; }
+.main > section + section { margin-top: 56px; }
+
+h1 { font: 600 40px/1.15 var(--serif); margin: 8px 0 16px; font-variation-settings: "opsz" 48; letter-spacing: -0.01em; }
+h2 { font: 600 28px/1.25 var(--sans); margin: 0 0 12px; }
+h3 { font: 600 20px/1.3 var(--sans); margin: 0; }
+h4 { font: 600 14px/1.3 var(--sans); margin: 20px 0 8px; }
+
+.eyebrow { font: 600 12px/1.4 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); margin-bottom: 4px; }
+.label { display: inline-block; font: 600 12px/1 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); margin-bottom: 10px; }
+
+.verdict-text { font-size: 17px; line-height: 1.5; max-width: 62ch; }
+
+.verdict { display: grid; grid-template-columns: auto repeat(4, 1fr); gap: 16px; align-items: stretch; margin: 28px 0 0; max-width: none; border: 1px solid var(--line); border-radius: 6px; padding: 18px 22px; background: var(--surface); }
+.verdict .bigwrap { display: flex; flex-direction: column; gap: 6px; justify-content: center; }
+.verdict .big { font: 600 64px/1 var(--serif); color: var(--accent); min-width: 72px; font-variation-settings: "opsz" 96; }
+.verdict .tile { display: flex; flex-direction: column; justify-content: center; gap: 6px; padding-left: 18px; border-left: 1px solid var(--line); min-width: 0; }
+.tile-v { font: 600 11px/1.1 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); }
+.num { font: 600 24px/1 var(--serif); color: var(--ink); font-variation-settings: "opsz" 24; }
+@media (max-width: 720px) {
+  .verdict { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .verdict .bigwrap { grid-column: 1 / -1; align-items: center; }
+  .verdict .tile { border-left: 0; border-top: 1px solid var(--line); padding: 12px 0 0; }
+}
+
+.cards { display: flex; flex-direction: column; gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 20px 22px; max-width: none; }
+.card header { display: flex; gap: 12px; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; }
+.card header .num { font: 600 15px/1 var(--mono); color: var(--ink-2); font-variation-settings: normal; }
+.card header h3 { flex: 1 1 60%; min-width: 220px; }
+.card.q p.plain { margin: 0 0 12px; color: var(--ink); font-size: 17px; line-height: 1.5; }
+
+.kv { margin: 0 0 12px; display: grid; grid-template-columns: 1fr; gap: 2px; }
+.kv dt { font: 600 11px/1.2 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); margin-top: 8px; }
+.kv dd { margin: 0; font-size: 15px; }
+
+.chip { display: inline-block; font: 600 11px/1 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--chip-ink); background: var(--ink-2); border-radius: 999px; padding: 4px 10px; white-space: nowrap; }
+.chip.open { background: var(--sev-med); }
+.chip.answered { background: var(--good); }
+.chip.alive { background: var(--sev-low); }
+.chip.eliminated { background: var(--sev-crit); }
+.chip.recommended { background: var(--accent); }
+.chip.size { background: transparent; color: var(--ink-2); border: 1px solid var(--line); padding: 3px 8px; }
+
+.card.opt h3 { font: 600 22px/1.25 var(--serif); font-variation-settings: "opsz" 24; }
+.card.opt .shape { font-size: 15px; color: var(--ink); margin: 6px 0 12px; }
+.card.opt ul { margin: 6px 0; padding-left: 20px; font-size: 15px; }
+.card.opt .pros li::marker { color: var(--good); }
+.card.opt .cons li::marker { color: var(--sev-high); }
+.card.opt .fit { font-size: 14px; color: var(--ink-2); margin-top: 8px; }
+.card.opt .after { font-size: 14px; color: var(--ink-2); font-style: italic; margin-top: 4px; }
+.card.opt.dead { opacity: .55; }
+.card.opt.rec { border-color: var(--accent); background: var(--accent-soft); }
+pre.tree { font: 13px/1.5 var(--mono); background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; overflow-x: auto; margin: 8px 0 12px; }
+.conf { font-family: var(--mono); color: var(--accent); }
+.card.opt .strike { color: var(--sev-crit); font-weight: 600; font-size: 15px; margin: 0 0 8px; }
+.card.opt details { font-size: 14px; color: var(--ink-2); }
+.card.opt details summary { cursor: pointer; }
+.card.opt blockquote, .changed blockquote, .note blockquote { margin: 8px 0; padding: 6px 14px; border-left: 3px solid var(--accent); background: var(--accent-soft); font-size: 15px; border-radius: 0 6px 6px 0; }
+
+.facts { width: 100%; border-collapse: collapse; font-size: 15px; margin: 8px 0 12px; }
+.facts th, .facts td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.facts th { font: 600 11px/1.2 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); }
+.facts td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
+.tablewrap { overflow-x: auto; }
+
+.ladder { list-style: none; padding: 0; margin: 12px 0; display: flex; flex-direction: column; gap: 8px; }
+.ladder li { display: grid; grid-template-columns: 92px 1fr; gap: 12px; border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; background: var(--surface); font-size: 15px; }
+.ladder .when { font-family: var(--mono); font-size: 13px; color: var(--accent); padding-top: 2px; }
+
+.research dt { font: 600 15px/1.4 var(--sans); color: var(--ink); margin-top: 16px; }
+.research dd { margin: 4px 0 0; color: var(--ink); font-size: 15px; }
+.research .cite { font-size: 13px; color: var(--ink-2); }
+
+.method { margin-top: 72px; border-top: 1px solid var(--line); padding-top: 24px; font-size: 13px; color: var(--ink-2); max-width: none; }
+.method h4 { color: var(--ink-2); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; margin: 16px 0 6px; }
+.method ul { margin: 0 0 12px; padding-left: 20px; }
+.method li { margin: 2px 0; }
+.method .history { font-family: var(--mono); font-size: 12px; margin: 2px 0; }
+
+.assumptions { font-size: 15px; padding-left: 20px; }
+.assumptions li { margin: 4px 0; }
+.narrow-list { font-size: 15px; padding-left: 20px; }
+.narrow-list li { margin: 8px 0; }
+
+.plain { font-size: 17px; }
+.answers { border: 0; padding: 0; margin: 12px 0 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.answers legend { padding: 0; margin-bottom: 8px; }
+.ans { display: flex; gap: 12px; align-items: flex-start; border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; cursor: pointer; min-width: 0; }
+.ans:hover { border-color: var(--ink-2); }
+.ans:has(input:checked) { border-color: var(--good); background: var(--good-soft); }
+.ans:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ans input { margin-top: 5px; accent-color: var(--good); flex: none; }
+.ans-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ans-body b { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; margin-right: 6px; }
+.good b { color: var(--good); }
+.catch b { color: var(--sev-high); }
+.note { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+textarea { width: 100%; font: inherit; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; resize: vertical; }
+textarea:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+.btn { font: inherit; font-weight: 600; background: var(--accent); color: var(--chip-ink); border: 1px solid var(--accent); border-radius: 6px; padding: 7px 16px; cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--ink-2); border-color: var(--line); }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.status { font-size: 14px; color: var(--ink-2); min-width: 0; }
+.banner { border: 1px solid var(--sev-med); border-radius: 6px; padding: 10px 14px; background: var(--surface); max-width: none; margin: 12px 0; }
+#question-list { display: flex; flex-direction: column; gap: 24px; }
+#question-list > h4 { margin: 8px 0 0; font: 600 12px/1 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); }
+.sendbar { position: sticky; bottom: calc(env(safe-area-inset-bottom,0px) + 12px); display: flex; gap: 16px; align-items: center; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--accent); border-radius: 6px; padding: 12px 16px; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <aside class="rail" aria-label="Contents">
+    <h4>On this page</h4>
+    <ol>
+      <li><a href="#turn3">Turn 3: what is settled</a></li>
+      <li><a href="#changed">What turn 2 fetched</a></li>
+      <li><a href="#what">What you're really asking</a></li>
+      <li><a href="#reads">Two reads you asked for</a></li>
+      <li><a href="#questions">Questions</a></li>
+      <li><a href="#options">Candidate options</a></li>
+      <li><a href="#recommendation">Recommendation</a></li>
+      <li><a href="#research">Primary-source research</a></li>
+      <li><a href="#narrow">What narrows this</a></li>
+      <li><a href="#method">Method</a></li>
+    </ol>
+  </aside>
+
+  <main class="main">
+    <div class="eyebrow">[Hiring company] via [recruitment platform] · AI Lead vetting · 2026-11-11 · Turn 5 · Recommendation</div>
+    <h1>AI Lead take-home: a plan and a review factory</h1>
+    <p class="banner" style="border-color:var(--accent)"><strong>Scrubbed public copy.</strong> This is the brief Claude and I built before any code was written: research, 25 questions, my answers, and the recommendation this repository was built from. Names of the hiring company, the recruiter, my employer's product and my private folders are replaced with [placeholders]. Quotes from private email are removed. Everything else is as written during the session, in the terse house voice I use for briefs.</p>
+    <p class="verdict-text">Twenty-five answers leave one shape: a company plugin that every team pulls in, argued in three moves. Your own delivery story opens page one. The outside evidence tests it. The plugin is how it scales. [the recruiter]'s email adds three facts that change the build. The repository is public. The prompts you used ship with it. The technical interview asks you to explain the code in detail. You asked for the plan. The recommendation below sets out the three pages, the build, the order of work, and what would change the call. The questions have stopped.</p>
+
+    <section class="verdict" aria-label="Verdict strip">
+      <div class="bigwrap"><div class="big" id="open-count">0</div><span class="tile-v">Open questions</span></div>
+      <div class="tile"><span class="tile-v">Recommended</span><span class="num">★ E</span></div>
+      <div class="tile"><span class="tile-v">Options eliminated</span><span class="num">4</span></div>
+      <div class="tile"><span class="tile-v">Answers received</span><span class="num" id="answered-count">25 of 25</span></div>
+      <div class="tile"><span class="tile-v">Primary sources</span><span class="num">23</span></div>
+    </section>
+
+    <section id="turn3" class="changed">
+      <span class="label">Turns 3 and 4</span>
+      <h2>Thirteen answers settle the shape. Nothing stays open.</h2>
+      <div class="tablewrap"><table class="facts">
+        <tr><th>Question</th><th>Your answer</th><th>What it settles</th></tr>
+        <tr><td class="n">Q13</td><td>PLAN.md is the full plan</td><td>The HTML and PDF edition carries the same content. Line one of <code>PLAN.md</code> links to it.</td></tr>
+        <tr><td class="n">Q14</td><td>Anonymised, with the numbers</td><td>The repo describes the project and never names the product or its owner. The numbers stay.</td></tr>
+        <tr><td class="n">Q16</td><td>Bounded lanes</td><td>Month 18: small fixes, tests and migrations are agent-written and human-approved on all teams. The factory is named as the aim beyond that.</td></tr>
+        <tr><td class="n">Q17</td><td>Claude Code headless, plus the simulated provider</td><td>The simulated provider runs by default. The real adapter is opt-in.</td></tr>
+        <tr><td class="n">Q18</td><td>Mini plugin, with metrics</td><td>One review skill, one guard-rail hook, sample managed settings, and a sample of the metrics export.</td></tr>
+        <tr><td class="n">Q19</td><td>Story, then evidence, then stance</td><td>The order of page one.</td></tr>
+        <tr><td class="n">Q20</td><td>Curated prompts plus a cleaned copy of this brief</td><td>The brief needs a scrub for private paths, mail content and project names before it is public.</td></tr>
+        <tr><td class="n">Q21</td><td>One paragraph each</td><td>Tiered models and design skills are in the plan. The pilot gets no model setting.</td></tr>
+        <tr><td class="n">Q22</td><td>A named strand</td><td>Surveys, workshops and comms form one block with a rhythm, about a quarter page.</td></tr>
+        <tr><td class="n">Q23</td><td>Let the budget grow to about nine hours</td><td>Every piece you chose is built. Nothing is cut.</td></tr>
+        <tr><td class="n">Q24</td><td>Eight months, with the start explained</td><td>The story states eight months and says what came before the first commit. See below.</td></tr>
+        <tr><td class="n">Q25</td><td>A South African company that holds customer location data</td><td>POPIA and section 72 stay in the plan. The company name does not appear in the repo.</td></tr>
+      </table></div>
+
+      <h4>Your plugin order, from the note on Q14</h4>
+      <blockquote>&ldquo;lets start with that it will include qa pipelines and ba pipelines for scrum jira etc already in place. a strong starter. with the metrics in place to send the stats somehwere as wel aa the issue lane as a start. the n small ui dapi design beforehand piplenes the full feature piplene then the ultimate prize&rdquo;</blockquote>
+      <p>This replaces the ladder in the reads section below. Your note gives the order. The months are my placement.</p>
+      <ol class="ladder">
+        <li><span class="when">Plugin 1<br>Month 3</span><span>The strong starter, on a pilot group: QA and review skills, BA skills for Scrum and Jira, the guard rails, the metrics export, and the Issue lane.</span></li>
+        <li><span class="when">Plugin 2<br>Month 6–9</span><span>Plugin 1 is on every team. Design-first pipelines arrive for small UI and API work: the design is agreed before the code starts.</span></li>
+        <li><span class="when">Plugin 3<br>Month 12</span><span>The full Feature lane runs on pilot teams. One C++ to C# migration stream runs as a pilot.</span></li>
+        <li><span class="when">Month 18</span><span>Bounded lanes are agentic on all teams. Features stay on pilot teams. This is the promise the plan signs.</span></li>
+        <li><span class="when">Beyond</span><span>The prize: spec to pull request is agentic by default. The plan names it as the aim and gives it no date.</span></li>
+      </ol>
+      <blockquote>Q16: &ldquo;last option is what we aim for but we have to be realistic about it and manage the progress realistically, and adapt to it but with constant pushing in reasonbable terms.&rdquo;</blockquote>
+
+      <h4>Q15: your decision, and one fact that stands next to it</h4>
+      <blockquote>&ldquo;the email mentions it the brief do not. a general explanation of the code not line by line. i am not a c# expert and my role is not to be one. i am an agentic coding expert. we go with the brief not the email&rdquo;</blockquote>
+      <p>Recorded. The pilot keeps the layered shape, and you present it as the owner of the design, the gates and the review. One fact stands next to this. The email is the only source that describes the interview, and it asks for an explanation of the code and its trade-offs <em>[paraphrased for the public copy]</em>. The brief does not cover the interview, so the two do not conflict. Q14 and Q20 already follow the same email.</p>
+      <p>Picture an interviewer who points at one method and asks what it does. &ldquo;I own the design and the agent wrote the line&rdquo; is a true answer. It lands only when you can also say what the line does. The cover is cheap: <code>SOLUTION.md</code> gets a file-by-file map, and you read each file once before the interview. That goes into the build. It is not a new question.</p>
+
+      <h4>The hours</h4>
+      <p>You set six to seven hours in Q03. Your choices since then add a real adapter, a mini plugin with metrics, and a scrubbed exhibit. My rough count is eight and a half to nine hours. This is an estimate, not a measurement. Q23 asked what gives. You let the budget grow to about nine hours.</p>
+
+      <h4>Q24: what the repo shows about the weeks before the first commit</h4>
+      <p>The git history supports your eight months in kind, and not in length. The first commit, on 28 April, is an &ldquo;initial check-in&rdquo; of an existing project together with its Claude Code workflow and feature documents. The second commit, two days later, is already at &ldquo;phases 10-13&rdquo; of one screen. Work existed before the repo did. The repo does not say when that work began.</p>
+      <blockquote>Q24 note: &ldquo;yes the preparation and thinking and proof of concepts first ui design guidelines what we want to do all the confincing from my own experience self training build apps and work already done on production off my own accord that ran and deployed successfully plus build a showcase for them, [an earlier project] and ongoing open project&rdquo;</blockquote>
+      <p>That fills the gap. The story counts eight months in two parts. First come about six weeks of preparation: proofs of concept, UI design guidelines, and a showcase that won the go-ahead. Then come six and a half months in the repo. The start falls in about March 2026. That month is my subtraction from your eight months, so correct it if the start was earlier or later.</p>
+      <p>The note also names earlier work of your own: apps you built and ran in production, <code>[an earlier project]</code>, and an open project. Those are yours to name in the repo. The Q14 rule covers the employer's product only.</p>
+
+      <h4>The .NET SDK</h4>
+      <p>You asked for help with the install. This command stays read-only on your machine, so it does not run an installer. Run <code>winget install Microsoft.DotNet.SDK.8</code>, then <code>dotnet --version</code>. The build starts after that, outside this brief.</p>
+    </section>
+
+    <section id="changed" class="changed">
+      <span class="label">What changed this turn</span>
+      <h2>Three things I fetched because your answers pointed at them</h2>
+
+      <h4>The covering email</h4>
+      <p><em>[Removed from the public copy: a table that quoted the recruiter's covering email. In short, the email added rules the assignment PDF does not state: the repository is public, the prompts used go in with it, the video covers what was left out, the interview asks for an explanation of the code, and the work is due within about 72 hours.]</em></p>
+
+      <h4>[my project], measured from its git history and its <code>.claude</code> folder</h4>
+      <p>You pointed me at <code>[my project's repository]</code> twice. These are the numbers the repo itself gives. They are the evidence behind your bold stance.</p>
+      <div class="tablewrap"><table class="facts">
+        <tr><th>Measure</th><th>Value</th><th>Note</th></tr>
+        <tr><td>First commit</td><td class="n">2026-04-28</td><td>Six and a half months to today. You wrote &ldquo;8 months&rdquo;. Settle which figure you say on camera.</td></tr>
+        <tr><td>Commits</td><td class="n">3,437</td><td>8 author identities in the log.</td></tr>
+        <tr><td>Commits per month</td><td class="n">85 → 191 → 436 → 513 → 682 → 1,165</td><td>May to October. The rate rises every month as the harness grows.</td></tr>
+        <tr><td>Harness</td><td class="n">54 commands · 20 skills · 20 agents · 11 hooks</td><td>Plus 30 standards documents.</td></tr>
+        <tr><td>Lanes</td><td class="n">4</td><td>Feature, Issue, Meta, Screen. Each runs plan → implement → close → land.</td></tr>
+        <tr><td>Quality gates</td><td class="n">18</td><td>G0 to G7 with sub-gates. A runner or the developer executes each one; the output is pasted into the gate block.</td></tr>
+      </table></div>
+      <p>[my project] replaces a C++ desktop client with a Kotlin web application. That is the job spec's standout item with one difference: the target language is Kotlin, not C#.</p>
+
+      <h4>The hiring company, from its own pages</h4>
+      <p><em>[Removed from the public copy: what the hiring company's website says about its privacy policy and its regulator.]</em></p>
+      <ul class="assumptions">
+        <li>POPIA section 72 bars sending personal information outside South Africa unless a listed ground applies. Claude runs in US or global zones on every route I found. The approval pack must answer section 72 for anything personal that reaches a prompt.</li>
+      </ul>
+
+      <h4>Added from the terminal during turn 2: tiered models and the design lane</h4>
+      <p>You added two points while I worked. [the hiring company] must learn that tiered model use is a cost lever. The design skills belong in the harness. [my project] shows both, in <code>its settings policy file</code> and the <code>.claude</code> folder.</p>
+      <div class="tablewrap"><table class="facts">
+        <tr><th>Part</th><th>Count</th><th>What it does</th></tr>
+        <tr><td>Agent tiers</td><td class="n">7 small · 9 middle · 4 large</td><td>Haiku 5.5, Sonnet 5.5, Opus 5.5. The gate runners, the docs runner and the Jira runner use the small model.</td></tr>
+        <tr><td>Command and skill pins</td><td class="n">45 middle · 22 large</td><td>The session default is the middle model.</td></tr>
+        <tr><td>The rule</td><td class="n">2 jobs</td><td>The large model designs the plan and judges the finished work. The policy adds: &ldquo;A missing rule is fixed with a rule and a check, never by raising the model.&rdquo;</td></tr>
+        <tr><td>Enforcement</td><td class="n">1 script · 1 hook</td><td>Every pin is a full model id. A script fails the build when a file and the pin map disagree. A hook logs each model switch.</td></tr>
+        <tr><td>Design lane</td><td class="n">14 commands · 1 critic agent</td><td>A design library of atoms, molecules, organisms and views. Gates check brand tokens, the design-system gallery and visual tests.</td></tr>
+      </table></div>
+      <p>For [the hiring company] the tiering sits in two places: the cost part of section 1c, and the plugin, which ships the pins to every team. The [my project] policy file quotes a price per model. Check each price against Anthropic's pricing page before the plan quotes one. Q21 asks where these two points get their space.</p>
+
+      <h4>Added from the terminal: surveys, workshops and AI-written comms</h4>
+      <p>You added three points about the people side. Each one has a home under the brief's own headings. Your work profile holds a working example of the third.</p>
+      <div class="tablewrap"><table class="facts">
+        <tr><th>Point</th><th>Where it sits</th><th>Evidence</th></tr>
+        <tr><td>Regular surveys for temperature and feeling</td><td>Section 1c, the satisfaction axis of the Q07 scorecard</td><td>SPACE asks for at least one survey measure. DX's framework states that satisfaction cannot be read from system data, and suggests a quarterly survey.</td></tr>
+        <tr><td>Team workshops for buy-in</td><td>Section 1b, rollout and enablement</td><td>DORA's capability model lists a clear and communicated AI stance. For a workshop rhythm: no primary source found. Your own practice is the evidence.</td></tr>
+        <tr><td>AI-written regular comms</td><td>Section 1b, and one skill in the plugin</td><td>[my project's daily bulletin] and [my project's gazette], both skills in <code>my skills folder</code>.</td></tr>
+      </table></div>
+      <p>[my project's daily bulletin] reads the previous day's merges from git each morning and writes a short bulletin. Five editions exist since 4 November. Its Friday edition leads with what is new on the demo server, for readers who do not code. [my project's gazette] is the fortnightly four-page PDF for the executive meeting. Two editions exist.</p>
+      <p>Four of its rules carry to [the hiring company] as guard rails for AI-written comms. Every number comes from collected data. No joke lands on a named person or on hours worked. Every quote is verified. The skill saves a draft, and a person presses Send.</p>
+      <p>One limit. The bulletin is one week old. It proves that the mechanism works. It does not yet prove an effect on buy-in. The plan can state the first and must not claim the second. Q22 asks how much room the people side gets.</p>
+      <p><strong>The register.</strong> You added that the comms use South African banter and registers, to build pride. Your own voice spec, <code>[my plugin-harness repo]/reference/voice.md</code>, already holds the rules. Idiom is &ldquo;seasoning, not the meal&rdquo; and &ldquo;never forced, never a costume&rdquo;. Time idioms such as &ldquo;just now&rdquo; stay out of anything with a date. A document that leaves the team dials the slang down. For [the hiring company] that gives two registers: fuller banter in the team bulletin, a plainer voice in anything that goes to management or to security.</p>
+      <p>Two limits. A South African team of 115 has more than one home language, and I have not seen [the hiring company]'s mix. Banter that leans on one language leaves the others out. [my project's daily bulletin] rule covers the rest: tease the work, never the person. For an effect on pride: no primary source found. The plan states it as your practice.</p>
+
+      <h4>One fact about this machine</h4>
+      <p>No .NET SDK is installed here. <code>dotnet</code> is not on the path. Part 2 needs the .NET 8 SDK before one line builds or one test runs.</p>
+    </section>
+
+    <section id="what">
+      <span class="label">What I think you're really asking</span>
+      <h2>One stance, proven twice</h2>
+      <p>The stance is yours and you have run it: give every team a ready harness, with the guard rails and the measuring built in, and they start strong. The plan argues it for [the hiring company]. The pilot is one working piece of it. The open work is to size the promise so that a Head of D&amp;E believes it, and to size the code so that you can defend it.</p>
+      <h4>Settled by your answers</h4>
+      <ul class="assumptions">
+        <li><strong>Q01.</strong> One bold stance on a safe base. The stance comes from your own delivery record.</li>
+        <li><strong>Q02.</strong> Due Saturday 14 November, about 11:41 SAST.</li>
+        <li><strong>Q03.</strong> Six to seven hours of your time. Solid, not over-built, with a &ldquo;what next&rdquo; section.</li>
+        <li><strong>Q04.</strong> The company is [the hiring company]. POPIA applies. The rest of the regulatory picture is an assumption to state.</li>
+        <li><strong>Q06.</strong> Start with QA and review. Then the factory harness. Then the BA stream and the migration stream.</li>
+        <li><strong>Q07.</strong> A custom scorecard that quotes DORA and SPACE and adds one AI-specific axis.</li>
+        <li><strong>Q08, Q09, Q10.</strong> Factory shape, layered seams, the richer review format. Q15 and Q17 can trim these.</li>
+        <li><strong>Q12.</strong> Open reuse of the method. The motto goes in: &ldquo;make it work, then make it better&rdquo;.</li>
+        <li><strong>Terminal, turn 2.</strong> &ldquo;also the tiered model use for token economics that we use in [my project]. it is important that they know it is a thing. as well as the ui design skills&rdquo;. Both go in. Q21 sizes them.</li>
+        <li><strong>Terminal, turn 2.</strong> &ldquo;regular surveys in the mix to measure temperature and feelings as well as team workshops along the way to help buy in and motivation, use ai to help generate regular comms like [my project's daily bulletin] example&rdquo;. All three go in. Q22 sizes them.</li>
+        <li><strong>Terminal, turn 2.</strong> &ldquo;we can do it with south african banter and registers tohelp improve the feeling of pride&rdquo;. The team comms take the fuller South African register. Anything that travels takes the plainer one.</li>
+      </ul>
+      <h4>One point where I push back</h4>
+      <p>Q11 says HTML documents are &ldquo;already widely adopted by strong AI-first companies&rdquo;. I found one Anthropic engineer's argument for it from May 2026, wide commentary, and named counter-arguments. I found no primary source for &ldquo;widely adopted&rdquo;. The plan can show the practice and say why it works. It must not claim an industry fact. The brief also names <code>PLAN.md</code> in the repository root as a deliverable, so the markdown file cannot go. See Q13.</p>
+    </section>
+
+    <section id="reads">
+      <span class="label">Two reads you asked for</span>
+      <h2>How bold the plan can honestly be, and where it starts</h2>
+
+      <h4>Q05: you asked how bold is realistic, and where [the hiring company] can be in 18 months</h4>
+      <p>Four pieces of evidence set the range.</p>
+      <ul class="assumptions">
+        <li><strong>Agents write merged pull requests at scale today.</strong> Spotify reports more than 1,500 agent-written pull requests merged to production. Coverage of Stripe reports more than 1,000 a week, each one reviewed by a person.</li>
+        <li><strong>Both companies built the rails first.</strong> Standard environments, fixed gates, and bounded work such as migrations and small fixes came before features.</li>
+        <li><strong>The general population is far behind.</strong> DORA 2025 calls AI an amplifier. Coverage of its survey puts developers who never use agent mode near 61%.</li>
+        <li><strong>Your own record.</strong> [my project] went from the first commit to four agent-driven lanes and 18 gates in six and a half months, with 8 people, on a new code base.</li>
+      </ul>
+      <p>Neither Spotify, Stripe nor [my project] is a 60-developer .NET group that starts from Copilot behind a tool-approval process. That gap is what the plan must respect. A ladder that the evidence supports:</p>
+      <ol class="ladder">
+        <li><span class="when">Month 3</span><span>Claude Code approved for a pilot group. Plugin version 1 carries the guard rails and the review and test skills. The baseline is measured.</span></li>
+        <li><span class="when">Month 6</span><span>The plugin is on every team. Pilot teams run an Issue lane: an agent implements a small fix, a person approves it.</span></li>
+        <li><span class="when">Month 12</span><span>Pilot teams run a Feature lane. The BA stream writes specs that agents can build from. One C++ to C# migration stream runs as a pilot.</span></li>
+        <li><span class="when">Month 18</span><span>For routine lanes, agent-authored and human-approved is the default. People own specs, architecture and review.</span></li>
+      </ol>
+      <p>Q16 asked which rung the plan promises by name. You chose the middle one. Turn 3, at the top of this page, replaces this ladder with your own plugin order.</p>
+
+      <h4>Q06: you asked for help with the starting point</h4>
+      <p>Your order holds, and three facts support it. Copilot already sits in tests and review, so the first change is small for the teams. DORA 2025 finds that AI lifts throughput and lowers stability, so the gates must exist before the speed arrives. Part 2 is a review tool, so the plan and the pilot start at the same place. The 90-day slice is review and tests. The harness follows from month 3. The BA stream and the migration stream follow from month 6.</p>
+    </section>
+
+    <section id="questions">
+      <span class="label">Questions that change the answer</span>
+      <h2>All 25 are answered</h2>
+      <p><em>[Public copy: this page was live during the session. I answered on it, and Claude read the answers back. Here it is static. The answer I picked is marked on each card, with my own words under it where I wrote any.]</em></p>
+      <p class="banner" id="db-banner" hidden></p>
+      <div id="question-list"></div>
+      
+    </section>
+
+    <section id="options">
+      <span class="label">Candidate options</span>
+      <h2>One shape left</h2>
+      <p>E is recommended. It holds the story, the evidence and the stance, in that order. The recommendation section below gives the detail.</p>
+
+      <div class="cards" style="margin-top: 16px;">
+        <article class="card opt rec">
+          <header>
+            <h3>E · Platform Team, delivered as a company plugin</h3>
+            <span class="chip recommended">★ Recommended</span><span class="chip size">L</span>
+          </header>
+          <p class="shape">A small AI team owns one Claude Code plugin for [the hiring company]. Every team's agents load it and start with the security guard rails, the review and test skills, and the metrics hooks already in place. The Part 2 pilot is one skill from that plugin, built as a .NET tool.</p>
+          <blockquote>Q12: &ldquo;a good plugin for the company every team pulls in giving their coding agents a solid start already ensuring all the crucial guird rail regarding security standards, the software factory etc&rdquo;</blockquote>
+          <blockquote>Q19: &ldquo;[my project] because my sweat and intiative and school of life learning path. then the evidence the hard evidence to compaire against then the stance for how we can scale this&rdquo;</blockquote>
+          <p class="shape"><strong>After turn 3.</strong> Page one runs in three moves: your delivery story with its numbers and no product name, the outside evidence beside it, and the plugin as the way to scale it. The plugin ships in three releases. Month 18 promises bounded lanes. The factory is the aim beyond that.</p>
+          <h4>Pros</h4>
+          <ul class="pros">
+            <li>Claude Code's managed settings can install and enable a plugin on every machine, and a user cannot switch it off. The standard is enforced by the tool, not by a memo.</li>
+            <li>Claude Code exports usage and cost over OpenTelemetry. The plugin can ship the measuring with the rules.</li>
+            <li>DORA's capability model names &ldquo;quality internal platforms&rdquo; as one of seven practices that make AI pay off.</li>
+          </ul>
+          <h4>Cons</h4>
+          <ul class="cons">
+            <li>The proof is [my project]: 8 people, a new code base, Kotlin. [the hiring company] is 60 developers, existing .NET systems, strict approval.</li>
+            <li>A platform team is a cost line. The plan must show what it replaces.</li>
+            <li>The repo is public. How much of the method you show is now a publication decision (Q14).</li>
+          </ul>
+          <p class="fit"><strong>Fit here</strong> Matches Q01, Q08, Q09 and Q12. Covers the brief's &ldquo;usage standards and how you make teams follow them&rdquo; with a mechanism.</p>
+          <p class="after"><strong>Afterwards</strong> a new team runs one install command, and its first agent session already refuses to read a secrets file.</p>
+        </article>
+
+        <article class="card opt dead">
+          <header>
+            <h3>D · Evidence-led opening</h3>
+            <span class="chip eliminated">Eliminated</span>
+          </header>
+          <p class="strike">Folded by Q19: you ordered page one as story, then evidence, then stance. The evidence is the second move inside E, not a shape of its own.</p>
+          <p class="shape">Page one states what the research shows: AI amplifies what a team already is, and experienced developers can lose time with it while they believe they gain. The plugin then arrives as the answer to that finding. After Q05 this shape is a frame for E, not a plan of its own.</p>
+          <blockquote>Q05: &ldquo;i guess how realistically bold can we be. then where we can be in 18 months.&rdquo;</blockquote>
+          <h4>Pros</h4>
+          <ul class="pros">
+            <li>A reader who is not an AI specialist gets the reason before the remedy.</li>
+            <li>It explains why the plan starts with gates and measures, not with speed.</li>
+            <li>It protects the bold stance from the &ldquo;hype&rdquo; reading.</li>
+          </ul>
+          <h4>Cons</h4>
+          <ul class="cons">
+            <li>It spends the first third of a three-page limit on other people's findings.</li>
+            <li>Opening with a slowdown figure can read as doubt about the role itself.</li>
+          </ul>
+          <p class="fit"><strong>Fit here</strong> Works as two short paragraphs or one sidebar. Q19 sets its size.</p>
+          <p class="after"><strong>Afterwards</strong> the reader repeats one number from the research and one sentence about the plugin.</p>
+        </article>
+
+        <article class="card opt dead">
+          <header>
+            <h3>A · The Pragmatic Pathfinder</h3>
+            <span class="chip eliminated">Eliminated</span>
+          </header>
+          <p class="strike">Struck by Q01: you chose one bold stance, and this shape has none. Its safe base carries into E.</p>
+          <details><summary>The card as it stood in turn 1</summary>
+            <p class="shape">A measured plan that starts in code review, uses DORA with one SPACE axis, pilots on 6–8 developers, and leans on a standard governance checklist. The pilot is literal: one file, one diff, one markdown review.</p>
+          </details>
+        </article>
+
+        <article class="card opt dead">
+          <header>
+            <h3>B · Agentic SDLC by month 12</h3>
+            <span class="chip eliminated">Eliminated</span>
+          </header>
+          <p class="strike">Struck by Q05: you chose the hybrid. Agentic delivery is the direction, not the month-12 claim. Its destination carries into E's month-18 rung.</p>
+          <details><summary>The card as it stood in turn 1</summary>
+            <p class="shape">The north star is agentic development across the lifecycle by month 12. Claude Code is the substrate. Agents own the test loops, the review loops and the release notes. Metrics focus on cycle time.</p>
+          </details>
+        </article>
+
+        <article class="card opt dead">
+          <header>
+            <h3>C · Security-first Gatekeeper</h3>
+            <span class="chip eliminated">Eliminated</span>
+          </header>
+          <p class="strike">Struck by Q01 and Q12: the stance sits on the harness, not on governance. POPIA and the approval pack become the plugin's guard-rail layer inside E.</p>
+          <details><summary>The card as it stood in turn 1</summary>
+            <p class="shape">Leads with the governance story. Zero data retention, the Copilot Trust Center, ISO/IEC 42001 and NIST AI 600-1 carry the plan. Usage standards get the most space. Rollout is cautious and auditable.</p>
+          </details>
+        </article>
+      </div>
+    </section>
+
+    <section id="recommendation">
+      <span class="label">Recommendation</span>
+      <h2>Argue for the company plugin: your story, the evidence, then the plugin</h2>
+      <p>Write the plan around one mechanism. A small AI team owns one Claude Code plugin. Every team loads it and starts with the guard rails, the skills and the measuring in place. Page one earns that claim in three moves: what you delivered in eight months, what the outside evidence says, and how the plugin scales it to 60 developers. The Part 2 pilot is one skill from that plugin, built as a .NET tool. The motto sits on page one: &ldquo;make it work, then make it better&rdquo;.</p>
+
+      <h4>Why this one</h4>
+      <ul class="assumptions">
+        <li><strong>It answers the client's own words.</strong> The job spec asks for agentic delivery across the lifecycle, and for usage standards that teams follow. Managed settings can lock a plugin on every machine, so the standard is enforced by the tool.</li>
+        <li><strong>You have run it.</strong> Your project went from preparation to four agent lanes and 18 gates in eight months, with 8 people. The merge rate rose every month.</li>
+        <li><strong>The outside evidence points the same way.</strong> Spotify and Stripe built the rails before the speed. DORA lists a quality internal platform among its seven capabilities.</li>
+        <li><strong>It makes one argument from two parts.</strong> The pilot is a working piece of Plugin 1. The reader sees the same diagram in the plan and in the code.</li>
+        <li><strong>It treats strict security as a design input.</strong> The redaction step, the guard-rail hook, the opt-in adapter and the managed settings are each visible in the repo.</li>
+      </ul>
+
+      <h4>PLAN.md, page by page</h4>
+      <div class="tablewrap"><table class="facts">
+        <tr><th>Page</th><th>Brief section</th><th>What it holds</th></tr>
+        <tr><td class="n">1</td><td>Opening and 1a, the roadmap</td><td>Your story in five lines, with numbers and no product name. The evidence in four lines: the amplifier finding, the slowdown trial, and the rails-first pattern. The stance: the company plugin. The north star: agents write, people own specs, architecture and review. The ladder: Plugin 1, 2, 3, the month-18 promise of bounded lanes, and the factory as the aim beyond. The first 90 days in detail. The build-or-buy rule.</td></tr>
+        <tr><td class="n">2</td><td>1b, the rollout under strict security</td><td>The security pack and the risks you expect. The usage standards and the four mechanisms that enforce them. The pilot group, the training, the hand-over and the step-out. The strand &ldquo;bring the people along&rdquo;. What happens to Copilot. One paragraph on design skills.</td></tr>
+        <tr><td class="n">3</td><td>1c, the measuring, and the assumptions</td><td>The scorecard on six axes. The baseline and the return calculation. How the numbers send help to a team that struggles. One paragraph on tiered models as the cost lever. The list of assumptions.</td></tr>
+      </table></div>
+
+      <h4>The first 90 days</h4>
+      <ol class="ladder">
+        <li><span class="when">Weeks 1–2</span><span>Take the baseline from git, Jira and the pipelines. Run the first survey. Hand the security pack to the approval process. Copilot stays for everyone.</span></li>
+        <li><span class="when">Weeks 3–6</span><span>Start a pilot group of 6 to 8: one product team with its QA and its BA. Load Plugin 1. The review and test skills go into daily use. Hold the first workshop.</span></li>
+        <li><span class="when">Weeks 7–12</span><span>Run the Issue lane on the pilot group. Publish the first scorecard against the baseline. Run the second survey. Decide: widen, adjust or stop.</span></li>
+      </ol>
+      <p>These dates assume that approval lands by week 3. The standards are written to be tool-neutral. Until approval, the pilot group applies them with Copilot.</p>
+
+      <h4>The content of the three hard paragraphs</h4>
+      <div class="tablewrap"><table class="facts">
+        <tr><th>Paragraph</th><th>What it says</th></tr>
+        <tr><td>Build, buy or SaaS</td><td>Buy the model and the agent runtime. Build the thin layer that holds the company's own standards, which is the plugin. Take SaaS only when the vendor passes the same security pack. Three tests decide: does it set the company apart, does data leave South Africa, and what does it cost to leave.</td></tr>
+        <tr><td>The security pack</td><td>A data-flow diagram of what leaves a developer's machine. The retention terms of the chosen route. The answer to POPIA section 72 for a company that holds customer location data: no personal information reaches a prompt, by a redaction step and a hook. The managed settings: permissions, the plugin lock, the audit export. The pilot scope and the exit plan. Risks named: personal data or secrets in a prompt, instructions hidden in repo content, an agent with too many permissions, cost that runs away, tools nobody approved.</td></tr>
+        <tr><td>Standards that hold</td><td>Four mechanisms, in this order: managed settings that a user cannot override, hooks that block an action, gates that fail a build, and review by a person. The rule from your own practice goes in: a missing rule is fixed with a rule and a check.</td></tr>
+        <tr><td>Copilot in the transition</td><td>Copilot stays until Claude Code is approved. The pilot group runs both for one cycle and reports the difference. Teams move at their licence renewal, so nobody pays twice for long. The standards carry over because they are tool-neutral.</td></tr>
+        <tr><td>Bring the people along</td><td>Weekly: a short bulletin of what shipped, drafted by AI from the merge history, sent by a person, in the team's own South African register. Monthly: a workshop where a team shows one thing that worked and one that did not. Quarterly: a survey on confidence, friction and trust.</td></tr>
+        <tr><td>The scorecard</td><td>Adoption: active users each week, teams on the plugin. Usage: lane runs, model-tier mix. Value: lead time for change, review turnaround. Quality: change failure rate, escaped defects, gate pass rate, share of agent pull requests accepted. Cost: spend per developer, cost per merged change. Feeling: the quarterly survey. Each team sees its own card. No league table.</td></tr>
+        <tr><td>Baseline and return</td><td>Four to six weeks of history before the pilot sets the baseline. The pilot group is compared with teams that have not started. Return is hours saved at loaded cost, less licences and the AI team. The plan states that felt speed and measured speed differ, and that it reports the measured one.</td></tr>
+      </table></div>
+
+      <h4>What the repository holds</h4>
+<pre class="tree">PLAN.md            the full three-page plan; line one links to the illustrated edition
+SOLUTION.md        design, trade-offs, the adapter plan, a file-by-file map, the list "not built, and why"
+README.md          how to run it locally
+PROMPTS.md         the key prompts in order, one line of reasoning each
+docs/plan.html     the illustrated edition      docs/plan.pdf   the same, printed
+docs/process/      a scrubbed copy of this brief
+src/               the .NET 8 review assistant: core, simulated provider, Claude Code provider, CLI
+tests/             unit tests for redaction, parsing, rendering, and one end-to-end run
+samples/           a small change set to review
+plugin/            the mini plugin: one review skill, one guard-rail hook,
+                   sample managed settings, sample metrics export</pre>
+      <p>The pilot is one line of flow: read the change set, redact it, build the prompt, call the provider, parse the reply, write the markdown file. Each step sits behind its own interface. The simulated provider is the default and needs no network. The Claude Code provider is switched on by a flag. The review keeps the brief's three headings, Summary, Suggestions and Potential Risks. Each item under them carries a severity, a confidence, a file and line, and a category.</p>
+
+      <h4>Order of work</h4>
+      <p>The hours are my estimates and add up to nine. The target is Saturday 14 November, 11:41 SAST.</p>
+      <div class="tablewrap"><table class="facts">
+        <tr><th>Step</th><th>Work</th><th>Hours</th><th>Day</th></tr>
+        <tr><td class="n">1</td><td>Install the .NET 8 SDK. Build the pipeline with the simulated provider and its tests.</td><td class="n">2.25</td><td>Thursday</td></tr>
+        <tr><td class="n">2</td><td>Write PLAN.md.</td><td class="n">2.0</td><td>Thursday</td></tr>
+        <tr><td class="n">3</td><td>Add the Claude Code provider, switched off by default.</td><td class="n">1.0</td><td>Friday</td></tr>
+        <tr><td class="n">4</td><td>Build the mini plugin with the metrics sample.</td><td class="n">1.0</td><td>Friday</td></tr>
+        <tr><td class="n">5</td><td>Write SOLUTION.md and README.md, with the file map and the &ldquo;not built&rdquo; list.</td><td class="n">0.5</td><td>Friday</td></tr>
+        <tr><td class="n">6</td><td>Make the illustrated edition, HTML then PDF.</td><td class="n">1.0</td><td>Friday</td></tr>
+        <tr><td class="n">7</td><td>Write PROMPTS.md. Scrub this brief for the process folder.</td><td class="n">0.5</td><td>Friday</td></tr>
+        <tr><td class="n">8</td><td>Video: outline, one rehearsal, record. Read each source file once.</td><td class="n">0.75</td><td>Saturday morning</td></tr>
+      </table></div>
+      <p>When Friday evening arrives and the work is behind, cut in this order: the scrubbed brief, then the Claude Code provider, then the illustrated edition down to one poster page. Each cut goes on the &ldquo;not built&rdquo; list with its reason.</p>
+
+      <h4>Runner-up, and when it wins</h4>
+      <p><strong>A, the literal four-hour version.</strong> PLAN.md and a pilot with the simulated provider only. No plugin, no real adapter, no illustrated edition. It wins in two cases. [the recruiter] states that the four-hour scope is itself the test. Or the build is not green by Friday evening. SOLUTION.md opens with the split you chose in Q03: this is the four-hour core, and this is what was added. That keeps the runner-up one deletion away.</p>
+
+      <h4>Confidence</h4>
+      <p><span class="conf">●●○</span> The shape is well supported: by the job spec, by your record and by the outside evidence. Three things hold it below full. Nobody has told you how the reviewers weigh nine hours of scope against a four-hour hint. The interview may go deeper into the C# than you plan for. [the hiring company]'s tests and pipelines are unseen, and the ladder assumes they are in fair shape.</p>
+
+      <h4>What would change this</h4>
+      <ul class="assumptions">
+        <li>[the recruiter] says the scope must stay near four hours. Switch to the runner-up.</li>
+        <li>The owner of your project objects to the anonymised numbers. Page one opens with the outside evidence, and your story moves to the video.</li>
+        <li>You learn that [the hiring company] runs on Azure. The security pack names Claude in Microsoft Foundry as the route, with its US and global data zones stated.</li>
+        <li>You learn that [the hiring company]'s teams have few tests or no pipeline gates. The first 90 days put test coverage before any lane.</li>
+      </ul>
+
+      <h4>Check these before PLAN.md quotes them</h4>
+      <ul class="assumptions">
+        <li>The DORA 2025 percentages and the full list of seven capabilities. I read coverage, not the report.</li>
+        <li>The Stripe figures. I read coverage, not the posts on stripe.dev.</li>
+        <li>The names of the managed-settings keys, on the English documentation page.</li>
+        <li>The wording of POPIA section 72, in the gazetted text.</li>
+        <li>Any model price, on Anthropic's pricing page.</li>
+        <li>Whether Claude Code connects through Microsoft Foundry. No source confirmed it.</li>
+      </ul>
+    </section>
+
+    <section id="research">
+      <span class="label">Primary-source research</span>
+      <h2>What the sources say</h2>
+      <p>Grouped by the sub-question each one informs. Where I read only coverage and not the original, the entry says so.</p>
+
+      <h4>New this turn: the plugin as the enforcement and measuring mechanism</h4>
+      <dl class="research">
+        <dt>Managed settings install and lock plugins across an organisation</dt>
+        <dd>This is the mechanism behind &ldquo;every team pulls it in&rdquo;. Anthropic's documentation states that managed settings decide which plugins Claude Code installs and allows on every machine, and that users cannot override them. Two keys work together: one registers the marketplace, one enables the plugins from it. Delivery is by the admin console, a device-management policy, or a settings file at a system path. <span class="cite">Source: <a href="https://code.claude.com/docs/en/plugins/org">code.claude.com/docs/en/plugins/org</a>. Key names read from a translated mirror; confirm against the English page.</span></dd>
+        <dt>Claude Code exports usage and cost over OpenTelemetry</dt>
+        <dd>This is the mechanism behind &ldquo;the plugin supplies the metrics tooling&rdquo;. The monitoring page documents metrics and events over OpenTelemetry, marked beta. Third-party guides describe a cost metric that can be split by user and model. Two limits apply: the cost figures are approximations, and a shared API key removes the per-user split. <span class="cite">Source: <a href="https://code.claude.com/docs/en/monitoring-usage">code.claude.com/docs/en/monitoring-usage</a>. Metric names come from third-party guides, not from the page itself.</span></dd>
+        <dt>DORA AI Capabilities Model: seven practices, one of them is the platform</dt>
+        <dd>This supports the platform shape with an outside source. The model lists seven capabilities that raise the return on AI. Three are named in the sources I read: a clear and communicated AI stance, working in small batches, and quality internal platforms. <span class="cite">Source: <a href="https://dora.dev/ai/capabilities-model/report">dora.dev/ai/capabilities-model/report</a> · <a href="https://cloud.google.com/blog/products/ai-machine-learning/introducing-doras-inaugural-ai-capabilities-model">Google Cloud blog</a>. Check the full list of seven against the report before the plan quotes it.</span></dd>
+      </dl>
+
+      <h4>New this turn: how far agent-written code has gone in production</h4>
+      <dl class="research">
+        <dt>Spotify: more than 1,500 agent-written pull requests merged</dt>
+        <dd>This is the upper bound for a company that built its own harness. Spotify's engineering blog reports that its background coding agent produced more than 1,500 pull requests that teams merged into production. The work began with fleet-wide migrations. <span class="cite">Source: <a href="https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1">engineering.atspotify.com, November 2025</a></span></dd>
+        <dt>Stripe: more than 1,000 agent-written pull requests a week, human-reviewed</dt>
+        <dd>This is a second case of the same pattern. Coverage of Stripe's &ldquo;Minions&rdquo; posts reports more than 1,000 merged pull requests a week, rising to about 1,300 by February 2026, all reviewed by people, run on standard development machines. <span class="cite">Source: coverage at <a href="https://blog.bytebytego.com/p/how-stripes-minions-ship-1300-prs">ByteByteGo</a>. I did not open the original posts on stripe.dev; verify the figures there before the plan quotes them.</span></dd>
+      </dl>
+
+      <h4>New this turn: the security route for [the hiring company]</h4>
+      <dl class="research">
+        <dt>POPIA section 72 governs personal information that leaves South Africa</dt>
+        <dd>This is the rule [the hiring company]'s security team will apply to any cloud model. Section 72 bars a transfer to a third party in a foreign country unless a listed ground applies, such as a law or agreement that gives comparable protection, or consent. The plan's control is to keep personal information out of prompts, by a redaction step and a hook. <span class="cite">Source: <a href="https://popia.co.za/protection-of-personal-information-act-popia/chapter-9/">POPIA chapter 9 text</a> · analysis in <a href="https://perjournal.co.za/article/view/15234">PER journal</a>. I read summaries of the section, not the gazetted text.</span></dd>
+        <dt>Claude in Microsoft Foundry: generally available, US and global zones</dt>
+        <dd>This is the likely route for a .NET group with an Azure contract. Claude reached general availability in Microsoft Foundry on 29 June 2026. Billing runs through the Azure invoice and sign-in can use Entra ID. Data-zone choices are Global and US. Anthropic operates the inference and is the data processor. Whether Claude Code connects to Foundry under these terms: not confirmed by these sources. <span class="cite">Source: <a href="https://learn.microsoft.com/en-my/Azure/foundry/foundry-models/concepts/claude-models">learn.microsoft.com — Claude models</a> · <a href="https://learn.microsoft.com/en-my/Azure/foundry/foundry-models/concepts/claude-models-hosting-comparison">hosting comparison</a> · <a href="https://claude.com/resources/articles/claude-in-microsoft-foundry">claude.com announcement</a></span></dd>
+        </dl>
+
+      <h4>New this turn: HTML for people, markdown for agents</h4>
+      <dl class="research">
+        <dt>One argument from Anthropic, and the case against it</dt>
+        <dd>This is the evidence behind your Q11 answer, and its limit. In May 2026 an engineer on Claude Code argued that self-contained HTML should replace markdown for most documents an agent writes for a person, because long markdown files stop being read. The case against: markdown costs fewer tokens, and a person can audit the raw file. Sources disagree, and no source I found measures adoption across companies. <span class="cite">Source: coverage at <a href="https://infoq.com/news/2026/06/anthropic-html-markdown-agent">InfoQ, June 2026</a>; counter-argument at <a href="https://danielmiessler.com/blog/text-is-thought-holy">danielmiessler.com</a>. I did not open the original post.</span></dd>
+      </dl>
+
+      <h4>New this turn: the people side</h4>
+      <dl class="research">
+        <dt>DX AI Measurement Framework: utilisation, impact, cost, and a quarterly survey</dt>
+        <dd>This supports surveys as a measure and not as a courtesy. The framework tracks three layers together: who uses the tools, what changes, and what it costs. It states that satisfaction and confidence cannot be captured from system data, so a survey is the instrument, run each quarter and checked against the system figures. DX sells a measurement product, so treat its benchmark numbers as a vendor's. <span class="cite">Source: <a href="https://getdx.com/ai-measurement-framework/">getdx.com/ai-measurement-framework</a> · <a href="https://getdx.com/blog/how-to-measure-ai-impact-engineering-team/">DX on measuring AI impact</a></span></dd>
+      </dl>
+
+      <h4>From turn 1: measurement and productivity</h4>
+      <dl class="research">
+        <dt>The SPACE framework: no single metric captures productivity</dt>
+        <dd>Forsgren and co-authors describe five dimensions: satisfaction, performance, activity, communication, and efficiency. They recommend at least one survey measure next to the system metrics. <span class="cite">Source: <a href="https://queue.acm.org/detail.cfm?id=3454124">ACM Queue, 2021</a></span></dd>
+        <dt>DORA 2025: AI is an amplifier</dt>
+        <dd>Nearly 5,000 respondents. AI magnifies the strengths of strong teams and the faults of weak ones. Throughput rises. Stability does not. <span class="cite">Source: <a href="https://cloud.google.com/dora">cloud.google.com/dora</a> · <a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">report PDF</a>. Percentages in this brief come from coverage; check the PDF.</span></dd>
+        <dt>METR 2025 trial: experienced developers took 19% longer with AI</dt>
+        <dd>16 developers, 246 tasks in their own repositories, random assignment. They believed they were about 20% faster. The authors limit the finding to early-2025 tools on large, mature code bases. <span class="cite">Source: <a href="https://metr.org/">metr.org</a> · coverage at <a href="https://www.theregister.com/2025/07/11/ai_code_tools_slow_down/">The Register</a></span></dd>
+      </dl>
+
+      <h4>From turn 1: security, approval and governance</h4>
+      <dl class="research">
+        <dt>Claude Code zero data retention</dt>
+        <dd>Available to qualified Enterprise accounts, enabled per organisation through the account team, on Anthropic's direct platform only. Its status for the newest models changed twice in 2026; get written confirmation. <span class="cite">Source: <a href="https://code.claude.com/docs/en/zero-data-retention">code.claude.com/docs/en/zero-data-retention</a></span></dd>
+        <dt>GitHub Copilot Business and Enterprise</dt>
+        <dd>GitHub states that it does not train on Business or Enterprise data. The Trust Center holds the approval material. <span class="cite">Source: <a href="https://resources.github.com/copilot-trust-center">Copilot Trust Center</a> · <a href="https://docs.github.com/en/copilot/tutorials/roll-out-at-scale/govern-at-scale/resources-for-approval">resources for approval</a></span></dd>
+        <dt>NIST AI 600-1 and ISO/IEC 42001</dt>
+        <dd>NIST's generative AI profile lists 12 risks and more than 200 actions. ISO/IEC 42001 is the management-system standard for AI and is entering procurement questionnaires. <span class="cite">Source: <a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf">NIST.AI.600-1</a> · <a href="https://www.iso.org/standard/81230.html">ISO/IEC 42001</a></span></dd>
+      </dl>
+
+      <h4>From turn 1: .NET review tools in the field</h4>
+      <dl class="research">
+        <dt>Lintellect, RoslynLens, PR-Agent</dt>
+        <dd>Lintellect is an open-source .NET review tool with a Claude option. RoslynLens gives an AI assistant Roslyn's semantic view of C# code. PR-Agent is an open-source reviewer for any language. The build-or-buy section names them. <span class="cite">Source: <a href="https://github.com/DawnDevelop/Lintellect">Lintellect</a> · <a href="https://dev.to/jfmeyers/roslynlens-give-your-ai-assistant-semantic-eyes-on-net-code-1k07">RoslynLens</a> · <a href="https://github.com/Codium-ai/pr-agent">PR-Agent</a></span></dd>
+      </dl>
+    </section>
+
+    <section id="narrow">
+      <span class="label">What I need from you to narrow this</span>
+      <h2>The questions have stopped</h2>
+      <p>The recommendation is above. This command writes one file, this brief, and it changes nothing on your machine. To build the repository, install the .NET 8 SDK, open a fresh session in the project folder, and ask for the build from this brief.</p>
+      <details><summary>What turn 2 asked for</summary>
+      <ol class="narrow-list">
+        <li><strong>Q14 and Q20.</strong> They decide what the public repository shows of [my project], of <code>[my plugin-harness repo]</code>, and of the prompts. Everything written after this depends on them.</li>
+        <li><strong>Q15, Q17, Q18, Q21 and Q22.</strong> They compete for the same hours and the same three pages. The plan now carries six additions beyond the brief's own bullets: the plugin, the ladder, tiered models, design skills, surveys with workshops, and AI-written comms. My estimate: the plan, the layered pilot, the illustrated edition and the video fill six to six and a half hours. A real adapter and a starter plugin cost about one hour each on top.</li>
+        <li><strong>Q16 and Q19.</strong> They set the month-18 promise and the first page. With those two answered, one shape is left and you can ask for the recommendation.</li>
+      </ol>
+      </details>
+    </section>
+
+    <section id="method" class="method">
+      <h4>How this was produced</h4>
+      <p>Interrogation, turn 5. Read-only on your projects and your mailbox. Answers read from this page's database. Options narrowed from those answers. E recommended at your request.</p>
+
+      <h4>Files and mail read</h4>
+      <ul>
+        <li>The assignment brief (PDF)</li>
+        <li>The recruiter's email thread about the role</li>
+        <li>[my project]'s repository: its agent configuration, its quality-gate headings and its git log counts</li>
+        <li>[my plugin-harness repo]: its instructions and its voice guide</li>
+        <li>Two of my own comms skills and their edition counts</li>
+      </ul>
+
+      <h4>Primary sources</h4>
+      <ul>
+        <li><a href="https://code.claude.com/docs/en/plugins/org">Claude Code · plugins for organisations</a> · <a href="https://code.claude.com/docs/en/monitoring-usage">monitoring usage</a> · <a href="https://code.claude.com/docs/en/zero-data-retention">zero data retention</a></li>
+        <li><a href="https://dora.dev/ai/capabilities-model/report">DORA AI Capabilities Model</a> · <a href="https://cloud.google.com/dora">DORA 2025 report</a> · <a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">PDF</a></li>
+        <li><a href="https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1">Spotify engineering · background coding agent</a> · Stripe Minions via <a href="https://blog.bytebytego.com/p/how-stripes-minions-ship-1300-prs">coverage</a></li>
+        <li><a href="https://popia.co.za/protection-of-personal-information-act-popia/chapter-9/">POPIA chapter 9</a> · <a href="https://perjournal.co.za/article/view/15234">PER journal on section 72</a></li>
+        <li><a href="https://learn.microsoft.com/en-my/Azure/foundry/foundry-models/concepts/claude-models">Microsoft Learn · Claude in Foundry</a> · <a href="https://claude.com/resources/articles/claude-in-microsoft-foundry">claude.com announcement</a></li>
+        <li><a href="https://infoq.com/news/2026/06/anthropic-html-markdown-agent">InfoQ on HTML versus markdown</a> · <a href="https://danielmiessler.com/blog/text-is-thought-holy">counter-argument</a></li>
+        <li><a href="https://queue.acm.org/detail.cfm?id=3454124">SPACE, ACM Queue 2021</a> · <a href="https://metr.org/">METR</a> · <a href="https://getdx.com/ai-measurement-framework/">DX AI Measurement Framework</a></li>
+        <li><a href="https://resources.github.com/copilot-trust-center">Copilot Trust Center</a> · <a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf">NIST AI 600-1</a> · <a href="https://www.iso.org/standard/81230.html">ISO/IEC 42001</a></li>
+        <li><a href="https://github.com/DawnDevelop/Lintellect">Lintellect</a> · <a href="https://dev.to/jfmeyers/roslynlens-give-your-ai-assistant-semantic-eyes-on-net-code-1k07">RoslynLens</a> · <a href="https://github.com/Codium-ai/pr-agent">PR-Agent</a></li>
+      </ul>
+
+      <h4>House style</h4>
+      <p>Interrogation-time 2.1.0 (2026-10-05). Voice: Simplified Technical English with the plain-words allowance on question cards.</p>
+
+      <h4>Turn history</h4>
+      <p class="history">2026-11-11 · Turn 1 · 12 questions opened · 5 options sketched · 11 sources</p>
+      <p class="history">2026-11-11 · Turn 2 · 12 answers read · options A, B, C struck · D and E alive · 10 questions opened · [the recruiter]'s email, [my project] and [the hiring company] read · tiered models, the design lane, surveys, workshops and AI-written comms and the South African register added from the terminal · 23 sources</p>
+      <p class="history">2026-11-11 · Turn 3 · 10 answers read · D folded into E · one shape left · plugin order and month-18 rung set · 3 questions opened</p>
+      <p class="history">2026-11-11 · Turn 4 · 3 answers read · 25 of 25 answered · budget grown to about nine hours · no new questions · waiting for the request for a recommendation</p>
+      <p class="history">2026-11-11 · Turn 4 · Q24 note read · eight months = about six weeks of preparation plus six and a half months in the repo · nothing open</p>
+      <p class="history">2026-11-11 · Turn 5 · &ldquo;write the plan&rdquo; · E marked recommended · recommendation section added · interrogation closed</p>
+    </section>
+  </main>
+</div>
+
+<script type="application/json" id="questions-data">
+{
+  "turn": 4,
+  "groups": [
+    {
+      "name": "Budget, constraints and compliance — answered in turn 3",
+      "questions": [
+        {
+          "id": "23",
+          "q": "Your choices add up to more than six to seven hours. What gives?",
+          "plain": "You said 6 to 7 hours, solid, not over-engineered. Then you picked the layered pilot, a real Claude Code adapter, a mini plugin with metrics, the illustrated edition, and a cleaned copy of this brief as an exhibit. By my rough count that's eight and a half to nine hours. Either the budget grows or one piece gets smaller.",
+          "why": "The target is Saturday. An unfinished piece in a public repo costs more than a piece that was cut on purpose and named in the 'not built' list.",
+          "eliminates": "Each answer shrinks or removes one build item. Grow removes none.",
+          "answers": [
+            {"key": "grow", "label": "Let the budget grow to about nine hours", "good": "You ship everything you chose. [the recruiter] did say you can ask for more time.", "catch": "It's more than double the four hours the brief suggests, and a sharp reviewer may read that as loose scoping."},
+            {"key": "thin-adapter", "label": "Keep everything, but make the Claude Code adapter thin: one class, marked experimental", "good": "The plug-and-play point is still proven, with very little code.", "catch": "A thin adapter invites 'what happens when it fails' questions. The answer would sit in SOLUTION.md, not in code."},
+            {"key": "poster", "label": "Shrink the illustrated edition to a single poster page", "good": "Saves most of an hour and still shows the documents-for-people idea.", "catch": "Less of your design eye on show, and you told me that matters."},
+            {"key": "exhibit-later", "label": "Ship the curated prompts now. Offer the cleaned brief on request.", "good": "Skips the scrub, which is slow and careful work.", "catch": "The exhibit is your most unusual piece, and 'on request' often means never seen."}
+          ]
+        },
+        {
+          "id": "24",
+          "q": "Which age do you state for the project in your story: six and a half months, or eight?",
+          "plain": "Page one now opens with your story, and the first number in it is how long it took. You wrote 8 months. The repo's first commit is 28 April, which makes six and a half. Maybe the work started before the repo did. Which figure can you stand behind when someone asks 'from when to when'?",
+          "why": "It is the first figure on page one. A reader who catches one soft number doubts the rest.",
+          "eliminates": "None. It sizes one sentence and every rate figure the story quotes.",
+          "answers": [
+            {"key": "git", "label": "Six and a half months, the git figure", "good": "It's checkable, and it's the more impressive number anyway.", "catch": "It leaves out any discovery or design work done before the first commit."},
+            {"key": "eight-explained", "label": "Eight months, and say what came before the first commit", "good": "Tells the whole story, including the thinking before the code.", "catch": "You must be able to name what happened in those weeks."},
+            {"key": "since-april", "label": "No duration. Say 'since April 2026'.", "good": "It can't be wrong.", "catch": "A bit vague, and the reader does the sum anyway."}
+          ]
+        },
+        {
+          "id": "25",
+          "q": "Does the plan name [the hiring company] and POPIA, or stay with the brief's nameless company?",
+          "plain": "The PDF never says [the hiring company]. It says 'the company'. [the recruiter]'s first email names it. A plan that talks about customer location data, POPIA and where the model runs shows you did your homework. But the repo is public, and you've just told me that where the email and the brief differ, you go with the brief.",
+          "why": "The security part is either written for a South African company that holds customer location data or it is generic. The person who must approve the tool reads those two very differently.",
+          "eliminates": "Generic removes the POPIA section 72 paragraph and the location-data example from the plan.",
+          "answers": [
+            {"key": "name", "label": "Name [the hiring company] and write for its data", "good": "Specific, and clearly homework done. The security part becomes real.", "catch": "A public repo then says in writing where you're applying, and any wrong guess about them is on show."},
+            {"key": "sa-context", "label": "Don't name the company. Write for 'a South African company that holds customer location data'.", "good": "Keeps the POPIA point and the location example without naming anyone. It matches how you handled your own project.", "catch": "Slightly coy. Everyone in the interview knows who it is."},
+            {"key": "generic", "label": "Stay fully generic, as the brief is", "good": "No risk of a wrong assumption about them.", "catch": "You lose the sharpest part of the security story."}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Risk tolerance — answered in turn 2",
+      "questions": [
+        {
+          "id": "14",
+          "q": "The repository is public. How does it cite [my project] and [my plugin-harness repo]?",
+          "plain": "[the recruiter]'s email says the repo must be public. [my project] lives under your [employer] work folder, and its numbers are your best proof: 3,437 commits, four agent lanes, 18 gates since 28 April. Once that sits in a public repo with your name on it, anybody can read it, including the people who own [my project]. How much do you put in writing?",
+          "why": "The plan's bold stance rests on this record. A security-strict reader also watches how a candidate handles another company's information.",
+          "eliminates": "Named: nothing, and it makes the story-first opening in Q19 possible. Video-only: removes the case study from <code>PLAN.md</code> and weakens Option E on the page.",
+          "answers": [
+            {"key": "named", "label": "Name it, with the numbers", "good": "The proof is specific and anyone can ask you about it. Strongest on the page.", "catch": "It's not only yours to publish. A [the hiring company] reader may also wonder what you'd post about them one day."},
+            {"key": "anon", "label": "Anonymised, with the numbers", "good": "You keep the figures and show you're careful with other people's work. A security team likes that.", "catch": "Nobody can check it from the page, so expect to be grilled on it in the interview."},
+            {"key": "video-only", "label": "Keep it out of the repo. Tell it in the video and the interview.", "good": "Nothing about [my project] is ever written down in public.", "catch": "The written plan loses its strongest evidence and leans on Spotify and Stripe instead."},
+            {"key": "private-repo", "label": "Ask [the recruiter] for the private-repo workaround", "good": "You can say more, to a smaller audience.", "catch": "It's an email round trip on a 72-hour clock, and the answer may be no."}
+          ]
+        },
+        {
+          "id": "15",
+          "q": "The interview asks you to explain the code in detail. How much C# do you take in with you?",
+          "plain": "You told me you're out of touch with .NET and C#. Picture the interview: somebody points at one line, say a LINQ query or a record declaration, and asks why it's written that way. In turn 1 you picked the factory shape with layered seams and a second adapter, which means more files and more lines to own. Where do you draw the line?",
+          "why": "One blank answer on a line of your own code costs more than a missing feature gains. The size of the code base sets the size of that risk.",
+          "eliminates": "Small-and-owned trims Q08 and Q09 to their thinnest honest form. Full-build keeps them and adds rehearsal time to the budget.",
+          "answers": [
+            {"key": "small-owned", "label": "Small and owned: keep the seams, cap the code at what I can explain line by line", "good": "You walk in able to defend every file. The design still shows.", "catch": "Fewer features on screen in the demo."},
+            {"key": "full-with-study", "label": "Full build, plus a study guide and a rehearsal", "good": "A richer demo, and you get a crash course in modern C# on the way.", "catch": "More to learn in three days. The study time comes out of the same 6 to 7 hours or goes on top."},
+            {"key": "own-the-design", "label": "Say it straight: the agent wrote the C#, I own the design, the gates and the review", "good": "It's honest, and it is exactly the way of working your plan sells.", "catch": "The job spec wants a hands-on lead. They can still ask about any line, so you need a fair grip anyway."}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Constraints — answered in turn 2",
+      "questions": [
+        {
+          "id": "13",
+          "q": "PLAN.md is a named deliverable. Which file is the real plan: the markdown or the illustrated edition?",
+          "plain": "The brief says: write a single markdown document, PLAN.md, in the repo root, max three pages. You'd rather show the future, with an illustrated HTML and PDF version for people and markdown for the agents. Both can exist. The question is which one holds the full plan and which one points to the other.",
+          "why": "A reviewer who works down the deliverables list opens <code>PLAN.md</code> first. What that file contains decides whether the deliverable counts as met.",
+          "eliminates": "Thin pointer: puts the stated deliverable at risk. Markdown only: drops the demonstration you asked for in Q11.",
+          "answers": [
+            {"key": "md-complete", "label": "PLAN.md is the full three-page plan. The HTML and PDF are the illustrated edition of the same content.", "good": "The box is ticked, and line one of the file points to the better-looking version. You make your point without risk.", "catch": "Two versions to keep in step. Any late edit has to land in both."},
+            {"key": "md-thin", "label": "PLAN.md is a one-page summary that points to the HTML", "good": "It makes the 'markdown is for agents' point as hard as it can be made.", "catch": "A reviewer who expected three pages and finds a pointer may mark the plan as missing."},
+            {"key": "md-poster", "label": "PLAN.md only, with one diagram embedded as an image", "good": "Least work, and nothing to keep in step.", "catch": "You lose the show-don't-tell moment about how documents should look."}
+          ]
+        },
+        {
+          "id": "17",
+          "q": "Which real adapter ships next to the simulated one, switched off by default?",
+          "plain": "The brief says local only, no network needed. So the tool must run on the simulated provider out of the box, and a real one can only be an opt-in extra. In turn 1 you chose to ship one real adapter. There are three honest routes, and one way out. Also: this machine has no .NET SDK yet, so nothing builds until that is installed.",
+          "why": "Each route is a different story to [the hiring company]'s security team, and a different hour of work.",
+          "eliminates": "Describe-only reverses your Q08 choice. Foundry cannot be tested without an Azure subscription.",
+          "answers": [
+            {"key": "claude-cli", "label": "Shell out to Claude Code itself, in headless mode", "good": "It's the exact tool [the hiring company] is adopting. No API key lives in your app, and the company's managed settings apply to it.", "catch": "Whoever tries it needs Claude Code installed. Starting and reading a process from C# takes some plumbing."},
+            {"key": "api", "label": "Call the Anthropic API directly, key from an environment variable", "good": "Short, standard and easy to read aloud in an interview.", "catch": "An API key is one more secret for security to approve and rotate."},
+            {"key": "foundry", "label": "Claude through Microsoft Foundry on Azure", "good": "A .NET shop probably has Azure. Billing and sign-in go through contracts they already hold.", "catch": "You can't test it without an Azure subscription, and the data still leaves South Africa."},
+            {"key": "describe-only", "label": "Simulated provider only. Describe the adapter in SOLUTION.md, as the brief literally asks.", "good": "Saves about an hour, and it is all the brief requires.", "catch": "The plug-and-play claim stays on paper."}
+          ]
+        },
+        {
+          "id": "20",
+          "q": "[the recruiter] asks for the prompts you used. What form does that record take?",
+          "plain": "The email says: if you use AI tools, include the prompts and explain your thinking. You've used a lot of AI here, on purpose. This brief, the research and the questions are all part of how you got to the answer. What goes in the repo as the record?",
+          "why": "The record is evidence of method, and it sits in a public repo. Raw transcripts hold private paths, mail content and [my project] details.",
+          "eliminates": "Raw transcripts conflict with any Q14 answer except 'named'.",
+          "answers": [
+            {"key": "curated", "label": "A curated PROMPTS.md: the key prompts in order, each with one line on why", "good": "Short, readable and safe. It shows your thinking without the noise.", "catch": "It's a selection, so a sceptic may ask what you left out."},
+            {"key": "process-doc", "label": "Curated prompts, plus a cleaned copy of this question-and-answer brief as an exhibit", "good": "It shows the real method: research, hard questions, then the build. Few candidates will have anything like it.", "catch": "It needs a scrub for private details before it goes public, and that takes time."},
+            {"key": "raw", "label": "Full session transcripts, as they are", "good": "Nothing hidden. Maximum openness.", "catch": "They contain your file paths, your mail and [my project] details. Very long, and not safe to publish as they stand."}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Success criteria — answered in turn 2",
+      "questions": [
+        {
+          "id": "16",
+          "q": "Which month-18 state does the plan promise by name?",
+          "plain": "You asked how bold is realistic. The read above gives a ladder. Now pick the top rung you're willing to sign. Think of the Head of D&E reading that one sentence back to you in a year and a half.",
+          "why": "The client's job spec sets the direction as agentic delivery across the lifecycle. The rung sets the pace, and every milestone before it is derived from it.",
+          "eliminates": "Assisted-everywhere undershoots the mandate. Factory-default rests on [my project] alone.",
+          "answers": [
+            {"key": "assisted", "label": "Assisted everywhere: every developer works with Claude Code under the plugin; agents draft tests and reviews; people write the code", "good": "Nobody can call it hype, and you'll very likely beat it.", "catch": "It promises less than [the hiring company]'s own job spec asks for."},
+            {"key": "lanes", "label": "Bounded lanes are agentic: small fixes, tests and migrations are agent-written and human-approved on all teams; features on pilot teams", "good": "It's what Spotify and Stripe did first, and it's how [my project] runs. Bold, with evidence behind every step.", "catch": "It assumes [the hiring company]'s tests and pipelines are in fair shape. You haven't seen them, so you must say that."},
+            {"key": "factory", "label": "Factory by default: spec to pull request is agentic for most work", "good": "The boldest line in the pile. People will remember it.", "catch": "No public example exists of a 60-developer .NET shop getting there in 18 months from Copilot. Your only proof is a team of 8 on new code."}
+          ]
+        },
+        {
+          "id": "19",
+          "q": "What does the reader meet first on page one?",
+          "plain": "Two shapes are left and they fit together. What's open is the opening. The first five lines decide whether the Head of D&E reads the rest as a strategy, a research summary or a war story.",
+          "why": "The opening decides whether Option D frames the plan or shrinks to a sidebar.",
+          "eliminates": "Plugin-first folds D into a sidebar. Evidence-first keeps D as the frame. Story-first needs Q14 to allow it.",
+          "answers": [
+            {"key": "plugin-first", "label": "The stance: the motto and the company plugin, in one picture", "good": "The reader knows your answer in ten seconds.", "catch": "The reason for it comes second, so a sceptic may read the opening as a sales pitch."},
+            {"key": "evidence-first", "label": "The evidence: what the research says goes wrong, then the plugin as the fix", "good": "It reads as judgement. The bold part lands on prepared ground.", "catch": "The first thing they read about you is somebody else's finding."},
+            {"key": "story-first", "label": "The story: what you did on [my project], then what it means for [the hiring company]", "good": "Nobody else can write this opening. It's proof before promise.", "catch": "It depends on what Q14 lets you say, and it can read as being about you, not about them."}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Budget — answered in turn 2",
+      "questions": [
+        {
+          "id": "18",
+          "q": "Does the repository ship a working starter plugin, or does the plan only describe it?",
+          "plain": "The plugin is your bold stance. The brief doesn't ask for one. It asks for a .NET tool and three documents. You have 6 to 7 hours. Do you spend one of them on making the stance real, with a small plugin folder that Claude Code can actually load, or do you keep it on paper?",
+          "why": "A claim that runs is stronger than a claim that is described. It is also work outside the stated deliverables, and more to explain.",
+          "eliminates": "Ship-mini takes the hour that Q17's real adapter also wants. Sketch leaves Option E's central claim as prose.",
+          "answers": [
+            {"key": "ship-mini", "label": "Ship a mini plugin: one review skill, one guard-rail hook, a sample of the managed settings", "good": "Your big idea is in the repo and it runs. That is rare in a take-home.", "catch": "About an hour extra, outside what the brief asked for, and one more thing to walk through on video."},
+            {"key": "shared-skill", "label": "One shared file: the review rubric lives in a skill file that both the .NET tool and Claude Code read", "good": "A single small artefact ties the plan and the pilot together. Cheap and neat.", "catch": "It's subtle. Without a clear diagram it can slip past in a ten-minute video."},
+            {"key": "sketch", "label": "Sketch only: a folder tree and a settings snippet inside the documents", "good": "No build time at all.", "catch": "Your strongest idea stays a description."}
+          ]
+        },
+        {
+          "id": "21",
+          "q": "Tiered models and the design skills: do they appear in what you build, or only in what you write?",
+          "plain": "You said [the hiring company] must know that tiered model use is a thing, and the UI design skills too. In [my project] it's real: 7 agents on the small model, 9 on the middle one, 4 on the big one, and a build check that fails when a pin drifts. The plan has three pages and already carries a lot. Where do these two get their space?",
+          "why": "A cost lever that is shown in a config file is believed. Each addition also takes lines from a three-page plan and minutes from a ten-minute video.",
+          "eliminates": "In-code adds a model-per-task setting to the provider seam from Q09. Plan-only leaves the pilot as it is.",
+          "answers": [
+            {"key": "plan-line", "label": "One short paragraph each in the plan, nothing in the code", "good": "Cheap, and the ideas are on record where the Head of D&E reads.", "catch": "Told, not shown. Easy to skim past."},
+            {"key": "tier-in-code", "label": "Tiering in the pilot: the provider config names a model per task. Design skills stay a line in the plan.", "good": "The cost idea sits in a config file you can show in one minute of video.", "catch": "With only the simulated provider running, the tiers are labels. You'd have to say so."},
+            {"key": "show-both", "label": "Tiering in the pilot config, and the illustrated edition of the plan stands as the design exhibit", "good": "Both ideas are shown, and the design one costs nothing extra because you're making that edition anyway.", "catch": "The illustrated edition then has to be good enough to carry that claim."}
+          ]
+        },
+        {
+          "id": "22",
+          "q": "Surveys, workshops and AI-written comms: a line each, a named strand, or a sample edition in the repo?",
+          "plain": "You want regular surveys to take the team's temperature, workshops along the way for buy-in, and AI-written comms like [my project's daily bulletin]. All three fit under headings the brief already has. [my project's daily bulletin] is your proof that the comms part works, five editions in. How much room do they get, and do you show one?",
+          "why": "The plan has three pages and now carries six additions beyond the brief's own bullets. A sample edition is the only one of the three that can be shown, and it costs build time.",
+          "eliminates": "Sample-edition takes time from Q17 or Q18. A-line-each keeps the people side as support and not as a theme.",
+          "answers": [
+            {"key": "line-each", "label": "One line each, inside the sections the brief already has", "good": "Costs almost no space. Surveys land in the scorecard, workshops and comms in the rollout.", "catch": "The people side reads as a footnote, and in a 115-person change it's half the job."},
+            {"key": "strand", "label": "A named strand, 'bring the people along': surveys, workshops and comms in one short block with a rhythm", "good": "Shows you know adoption is a people problem. A Head of D&E will look for exactly this.", "catch": "About a quarter of a page. Something else gets shorter."},
+            {"key": "sample", "label": "The strand, plus one sample bulletin in the repo, written from the pilot's own git history", "good": "They see the idea working. Nobody else will hand in a newspaper.", "catch": "Extra build time. The banter has to land for all 115 people, whatever their home language, so it follows your own rule: seasoning, not the meal."}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Scope and stakes — answered in turn 1",
+      "questions": [
+        {
+          "id": "01",
+          "q": "Are you aiming to win this offer outright, or to pass convincingly and keep options open?",
+          "plain": "An AI Lead role is already a shift for a 115-person .NET shop. Do you want the plan calibrated to say 'this is the one' — bolder, more opinionated, a stance they might disagree with — or 'this one is safe and senior' — right answers, no sharp edges, easy yes from everyone in the room?",
+          "why": "A bold take narrows the plan to one strong stance. A safe pass surveys options and recommends the moderate one. The two produce different documents.",
+          "eliminates": "Win-outright kills Option A. Pass-convincingly kills Options B and D at their full strength.",
+          "answers": [
+            {"key": "win", "label": "Win it. Take a stance.", "good": "The plan shows a point of view. The reader remembers you and quotes a line back.", "catch": "A sharp opinion the reader disagrees with can lose the room entirely."},
+            {"key": "pass", "label": "Pass convincingly. Play safe.", "good": "Low variance. Fits every sensible review rubric.", "catch": "The plan reads competent but generic. Hard to stand out on a stacked pile."},
+            {"key": "lean-win", "label": "Lean win. One bold stance, everything else safe.", "good": "One memorable idea on top of a solid base. Covers both reads.", "catch": "Needs a clean split between the bold bit and the safe bits — a sloppy split reads as fence-sitting."}
+          ]
+        },
+        {
+          "id": "02",
+          "q": "When exactly is the assignment due back?",
+          "plain": "The brief is dated today, 11 November 2026. Did [the recruitment platform] give you a hard date, a number of days, or just 'take your time'? The answer sets how much R&D and polish we can realistically do.",
+          "why": "48 hours kills the illustrative PDF, a second pilot pass, and video rehearsal. A week lets the plan, the pilot, the PDF and the video all breathe.",
+          "eliminates": "48h kills the illustrative PDF and the extended pilot options.",
+          "answers": [
+            {"key": "48h", "label": "Within 48 hours", "good": "Forces ruthless scoping. Done beats polished.", "catch": "No room for the illustrative PDF or a second pilot pass."},
+            {"key": "week", "label": "Within a week", "good": "Room for the plan, pilot, PDF and video rehearsal.", "catch": "Over-polish risks signalling you missed the 4-hour hint."},
+            {"key": "open", "label": "No hard date given", "good": "You pick when to submit.", "catch": "The 4-hour hint in the brief becomes the real signal, not the clock."}
+          ]
+        },
+        {
+          "id": "03",
+          "q": "Four hours — honest budget, or a floor you plan to exceed quietly?",
+          "plain": "Some take-homes say '4 hours' as a scoping test — can you cut? Others say it to be nice and reward the one who put in 20. Which flavour is this one, in your read?",
+          "why": "If 4h is the real test, restraint is the signal. If it is a floor, depth is. The two produce different pilots.",
+          "eliminates": "Honest-4h shrinks Option E's platform shape. Floor kills the minimal pilot in Q08.",
+          "answers": [
+            {"key": "honest", "label": "4h is the honest cap. Show scoping.", "good": "Sharp scoping reads senior. Visible trade-offs matter.", "catch": "Pilot may feel thin next to a candidate who went deeper."},
+            {"key": "floor", "label": "4h is a floor. Go deep.", "good": "Depth and polish stand out in a pile.", "catch": "Over-engineering reads as missing the scope cue. Mixed signal."},
+            {"key": "visible-split", "label": "Ship the 4h version. Add a 'what next' section showing you could go further.", "good": "Keeps the scope signal and the depth signal.", "catch": "Needs disciplined splitting — a sloppy split looks like scope creep."}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Audience and positioning — answered in turn 1",
+      "questions": [
+        {
+          "id": "04",
+          "q": "Do you know the company behind this — name, sector, regulatory exposure?",
+          "plain": "[the recruitment platform] is the vetting agent, not the employer. Do you know who the actual hiring company is? Their sector (fintech, insurance, health, govt) shapes what 'strict security' really means and what the plan should lead with.",
+          "why": "A regulated sector makes ISO 42001 and NIST AI 600-1 load-bearing. A lightly regulated one makes the plan lighter on governance and heavier on velocity.",
+          "eliminates": "Known-and-regulated elevates Option C. Unknown or light-regulated downgrades it.",
+          "answers": [
+            {"key": "known-regulated", "label": "Known, regulated sector", "good": "You tailor the governance angle precisely. Huge differentiator.", "catch": "Wrong-guess risk — assume regulation they don't have, and the plan feels heavy."},
+            {"key": "known-light", "label": "Known, lightly regulated", "good": "You skip half the compliance detail.", "catch": "Miss their actual constraint and the plan feels naive."},
+            {"key": "unknown", "label": "Unknown or [the recruitment platform] won't say", "good": "Forces a generic-but-defensible plan.", "catch": "You optimise for the wrong reader. Easy to be too corporate or too loose."}
+          ]
+        },
+        {
+          "id": "05",
+          "q": "North star: measured 'amplifier' or bold 'agentic SDLC in 12 months'?",
+          "plain": "The brief lists 'agentic / AI-driven development across the lifecycle' as an example north star. Do you want to take that bait, or stake a more sober position backed by DORA 2025's finding that AI amplifies both strengths and weaknesses?",
+          "why": "A bold bet signals vision. A measured read signals judgement. The assessor has a preference, and the whole plan reads through this choice.",
+          "eliminates": "Bold kills Option D. Measured kills Option B at full strength.",
+          "answers": [
+            {"key": "bold", "label": "Bold: agentic SDLC by month 12", "good": "The brief gave you the hook. Taking it signals ambition.", "catch": "If DORA 2025 is shared reading at that company, it reads as naive."},
+            {"key": "measured", "label": "Measured: amplifier, not magic", "good": "Backed by DORA 2025 and METR 2025. Reads as evidence-led.", "catch": "Can land as 'cautious hire' when they wanted a bet."},
+            {"key": "hybrid", "label": "Hybrid: amplifier now, agentic trajectory by month 18", "good": "Best of both reads. A story, not just a position.", "catch": "Needs sharper wording to avoid sounding like fence-sitting."}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plan content — answered in turn 1",
+      "questions": [
+        {
+          "id": "06",
+          "q": "Where in the SDLC does the 90-day plan start?",
+          "plain": "The brief asks where in the lifecycle you'd start and why. Code review is the obvious answer because Part 2 lives there. But requirements, BA handoffs, and QA test generation are all legitimate choices, and picking one of them says something different about you.",
+          "why": "Starting at review ties the plan to the pilot. Starting upstream shows you don't default to what the brief shows you.",
+          "eliminates": "Review-first weakens the upstream options. Upstream weakens the Part 2 tie-in.",
+          "answers": [
+            {"key": "review", "label": "Start at code review (match Part 2)", "good": "Tight coherence with the pilot. Easy story to tell.", "catch": "Looks like you took the path the brief suggested."},
+            {"key": "qa", "label": "Start at QA / test generation", "good": "Shows independent judgement. QA teams are often the under-served slice.", "catch": "Loses the Part 2 tie-in. Needs a stronger why."},
+            {"key": "requirements", "label": "Start at requirements / BA handoff", "good": "Highest-leverage upstream. Shows strategic range.", "catch": "Furthest from engineering. Head of D&E may want engineering wins first."},
+            {"key": "parallel", "label": "Two tracks: review (quick win) + requirements (compounding)", "good": "Covers both reads. Shows portfolio thinking.", "catch": "Harder to fit in 3 pages. Risk of looking unfocused."}
+          ]
+        },
+        {
+          "id": "07",
+          "q": "Which measurement frame leads: DORA, SPACE, or a custom blend?",
+          "plain": "The plan needs metrics for adoption, usage, value, quality and cost. DORA (deploy frequency, lead time, change fail rate, MTTR) is the industry baseline. SPACE adds satisfaction, activity, communication, flow. Or build a custom scorecard that quotes both. Which frame reads as 'AI Lead' to this audience?",
+          "why": "DORA shows DevOps literacy. SPACE shows research literacy. A blend shows both but costs 3-page real estate.",
+          "eliminates": "DORA-only weakens the research-literate signal. Blend costs page space elsewhere.",
+          "answers": [
+            {"key": "dora", "label": "DORA-led, with one SPACE axis (satisfaction) tacked on", "good": "Familiar, defensible, cited everywhere. Easy yes.", "catch": "Reads as the default pick. Not a differentiator."},
+            {"key": "space", "label": "SPACE-led, DORA as the delivery slice", "good": "Shows you have read the research. Rare in the pile.", "catch": "SPACE needs survey instrumentation to be real. More work."},
+            {"key": "custom", "label": "Custom scorecard quoting both + one AI-specific axis (acceptance rate, safety flags)", "good": "Shows judgement, not framework-worship.", "catch": "Custom means you own the defence. Needs tight wording."}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "The pilot (Part 2) — answered in turn 1",
+      "questions": [
+        {
+          "id": "08",
+          "q": "Pilot scope: literal small, or visibly composable factory?",
+          "plain": "The brief says small, local, tight. Do you build literally that — one file, reads a diff, prints a markdown review? Or small-but-visibly-composable where the adapter, prompts, policy and output pipeline are each their own piece you can see on a diagram? Both are 'small'. One hides the factory shape. The other shows it off.",
+          "why": "Literal small respects the 4h cap. Factory-shaped shows architectural thinking. The video demo plays very differently in each case.",
+          "eliminates": "Literal small kills most of the schematic PDF payoff. Factory-shaped strains the 4-hour claim.",
+          "answers": [
+            {"key": "literal", "label": "Literal small pilot", "good": "Fast. Honest to the 4h cap. Easy to explain.", "catch": "The 'review factory' promise lands weaker. No diagram worth drawing."},
+            {"key": "factory", "label": "Small-but-visibly-composable review factory", "good": "The architecture reads on the diagram and the video.", "catch": "More work. Easier to over-engineer."},
+            {"key": "factory-plus", "label": "Factory shape + one real adapter beyond the simulated one", "good": "Shows the plug-and-play claim is actually true.", "catch": "Second adapter is where real time goes. Risk of half-finishing both."}
+          ]
+        },
+        {
+          "id": "09",
+          "q": "How deep does the provider abstraction go?",
+          "plain": "The brief asks for a 'clear extension point' and a simulated provider. Minimum: an IReviewProvider with one method. Deeper: separate seams for the prompt template (so the Claude adapter owns its system prompt), input redaction (so secrets don't leak), output parsing (so each provider shapes its response to one contract), and telemetry. Deeper shows how you would run this safely at 60 devs.",
+          "why": "A minimal seam is faster and defensible. A deeper seam shows the security story Part 1 claims is possible to actually build.",
+          "eliminates": "Minimal weakens the Claude-adapter-under-security story in SOLUTION.md.",
+          "answers": [
+            {"key": "minimal", "label": "Minimal: one interface, one method", "good": "Smallest honest answer. Matches the brief.", "catch": "SOLUTION.md's security story becomes aspirational, not demonstrated."},
+            {"key": "layered", "label": "Layered: prompt, redaction, parsing, telemetry each have their seam", "good": "The security story is visible in code, not just prose.", "catch": "More files to explain in the video."},
+            {"key": "declarative", "label": "Layered + a config file so policies are declarative", "good": "Reads as a real platform. Easy to extend.", "catch": "Config schemas eat time. Needs a sample config to earn their keep."}
+          ]
+        },
+        {
+          "id": "10",
+          "q": "Review output: match the brief's sample, or add structure?",
+          "plain": "The brief's illustrative output has Summary, Suggestions, Potential Risks. Do we copy that shape exactly (safe, respects the hint), or add severity levels, confidence chips, and file:line anchors (shows you have built review tools before)? Hard to do both without clutter.",
+          "why": "Copying proves you read the brief. Adding structure proves you have built review tools. Each signal has a cost.",
+          "eliminates": "Copy weakens the differentiation Option E (Platform) wants. Richer can read as not-listening.",
+          "answers": [
+            {"key": "copy", "label": "Copy the sample shape", "good": "Answers the brief directly. No friction.", "catch": "Loses a differentiator the stronger candidates will use."},
+            {"key": "richer", "label": "Richer: severity + confidence + file:line + category", "good": "Looks like a real review tool. Matches your own house style.", "catch": "A stickler assessor marks it as not-listening."},
+            {"key": "both", "label": "Sample shape by default + opt-in 'enhanced' mode flag", "good": "You showed you read the brief and have a richer take.", "catch": "Two output modes to document. More test surface."}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Delivery — answered in turn 1",
+      "questions": [
+        {
+          "id": "11",
+          "q": "The schematic PDF: one-page poster or a multi-page visual plan?",
+          "plain": "You asked for a 'beautiful illustrative schematic PDF' of the plan. Does it want to be a single landscape page — timeline, metrics, factory diagram, all on one — that someone pins on a wall? Or a 4–6 page walkthrough: cover, north star, 90-day timeline, factory diagram, metrics dashboard mock, risk register?",
+          "why": "A one-pager is a memorable artefact. A multi-pager is a mini document. Each takes different time and sends a different signal.",
+          "eliminates": "Poster kills the dashboard mock and visual risk register. Multi-page kills the 'at a glance' impact.",
+          "answers": [
+            {"key": "poster", "label": "One-page landscape poster", "good": "Memorable. Every panel adds to one picture.", "catch": "No room for the dashboard mock or risk-register visuals."},
+            {"key": "multi", "label": "Multi-page visual plan (4–6 pages)", "good": "Each decision gets its own view. Reads like a real deck.", "catch": "More design work. Risk of looking slide-deck-y, not engineering-y."},
+            {"key": "poster-plus", "label": "Poster hero + 2–3 page appendix", "good": "Best of both. Poster is the hero, appendix is the detail.", "catch": "Needs disciplined layout to avoid redundancy."}
+          ]
+        },
+        {
+          "id": "12",
+          "q": "Can Part 2 openly reuse your [my plugin-harness repo] factory patterns, or should it look standalone?",
+          "plain": "Your [my plugin-harness repo] repo already has the skills/playbooks/templates shape — exactly what an 'AI review factory' means. Do you want the pilot to visibly use that pattern (the same SKILL.md shape, the same reference and templates layout) so the reader sees a working method? Or should it look standalone so you are not showing private IP to an employer?",
+          "why": "Open reuse signals a method you can bring to the new job. Standalone signals IP hygiene. The two look like different candidates.",
+          "eliminates": "Open-reuse kills 'look standalone'. Standalone kills the method signal.",
+          "answers": [
+            {"key": "open", "label": "Open reuse. Show the method.", "good": "The pilot becomes evidence of a repeatable approach.", "catch": "Opens an IP-ownership conversation you may not want yet."},
+            {"key": "standalone", "label": "Standalone. Fresh for the assignment.", "good": "Clean IP line. No awkward questions.", "catch": "You rebuild patterns you already have. Costs time."},
+            {"key": "inspired", "label": "Inspired-by, not copied-from. Generic factory shape.", "good": "The pattern reads through, no [my plugin-harness repo] branding.", "catch": "Needs discipline to not copy structure accidentally."}
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<script type="application/json" id="answers-data">
+{
+ "01": {
+  "choice": "lean-win",
+  "note": "my own experience already leading and fast tracking a team and building up the harnessing and ai structure will take the strong here. i can be opinianated on it i have solid working experience of what i already did learn the hard way. The rest it is advisable to do case studies to draw good logic conclusions from it, but also to be bold in moving forward regardless"
+ },
+ "02": {
+  "choice": null,
+  "note": "within 72 hours. reed [the recruiter]'s email as well."
+ },
+ "03": {
+  "choice": "visible-split",
+  "note": "i am not in a hurry it needs to be solid without over engineered. solid, lets go for the 6 to 7 hours"
+ },
+ "04": {
+  "choice": "unknown",
+  "note": "[Removed from the public copy: a description of the hiring company's business and a link to its website.] i am not sure what are all the regulatory stuff they are under."
+ },
+ "05": {
+  "choice": "hybrid",
+  "note": "i need to understand the reads. i guess how realistically bold can we be. then where we can be in 18 months. so this needs some more info for me"
+ },
+ "06": {
+  "choice": null,
+  "note": "the thing is i started with code generation with QA and review and BA speccing all in one go as a small team with a huge prodcut migration. it can all be done that way. but with specialised roles you need to choose first. co-pilot typically is used to help witht eh boring stuff, the QA,  unit test and test drive n development. so QA and review first. then the code factory harnes. in the process streams for BA and code migration etc. look at [my project] [my project] 8 months from nothing. helpme out here"
+ },
+ "07": {
+  "choice": "custom",
+  "note": ""
+ },
+ "08": {
+  "choice": "factory-plus",
+  "note": ""
+ },
+ "09": {
+  "choice": "layered",
+  "note": "i am out of touch with .net and C#. part of this is to show that in the end the language and libraries used do not matter. the solid engineering princeples do. proper understaning of the cycle, iterative improvements qa architecture ci/cd etc"
+ },
+ "10": {
+  "choice": "richer",
+  "note": ""
+ },
+ "11": {
+  "choice": null,
+  "note": "i would rather than a boring md file have the pdf as an example of the future, the use of artifacts and html for better more natuaral illustrative specs and docs. make them understand this is already widely adopted by strong ai first companies and that md files are for the agents."
+ },
+ "12": {
+  "choice": "open",
+  "note": "but look at [my project]. the idea from [my plugin-harness repo] is part of the ai enablement. a plug in basic harness the agent build on for the specific project code base etc. giving the developers or team a ready made set of skills sub agents etc to build on or build up from so they can implement or strengthen the development and foactory pipelines etc. see [my project] again. the idea they can start strong already with good guard rails in place. the plugin then also supply the metrics tooling that should be implmented for the stats. this is probably the strongest way to fast track teams.  make it work then make it better. my motto. put it in the write up. a good plugin for the company every team pulls in giving their coding agents a solid start already ensuring all the crucial guird rail regarding security standards, the software factory etc"
+ },
+ "13": {
+  "choice": "md-complete",
+  "note": ""
+ },
+ "14": {
+  "choice": "anon",
+  "note": "The idea is to mention my own blodd and sweat experience from the current [my project] system and othe rprojects to illustrate i know what i am talking about. then regarding the plgin harness. lets start with that it will include qa pipelines and ba pipelines for scrum jira etc already in place. a strong starter. with the metrics in place to send the stats somehwere as wel aa the issue lane as a start. the n small ui dapi design beforehand piplenes the full feature piplene then the ultimate prize"
+ },
+ "15": {
+  "choice": null,
+  "note": "the email mentions it the brief do not. a general explanation of the code not line by line. i am not a c# expert and my role is not to be one. i am an agentic coding expert. we go with the brief not the email"
+ },
+ "16": {
+  "choice": "lanes",
+  "note": "last option is what we aim for but we have to be realistic about it and manage the progress realistically, and adapt to it but with constant pushing  in reasonbable terms. so bounded lanes. i am not sure what their expectations are for making the comapny agentic. we can only compare and build arounf realistic real world scenarious and adapt according to that."
+ },
+ "17": {
+  "choice": "claude-cli",
+  "note": "lets go for the selected and simulated. also you need to help me install .net needed"
+ },
+ "18": {
+  "choice": "ship-mini",
+  "note": "add some possble metrics in as well"
+ },
+ "19": {
+  "choice": "story-first",
+  "note": "[my project] because my sweat and intiative and school of life learning path. then the evidence the hard evidence to compaire against then the stance for how we can scale this"
+ },
+ "20": {
+  "choice": "process-doc",
+  "note": ""
+ },
+ "21": {
+  "choice": "plan-line",
+  "note": ""
+ },
+ "22": {
+  "choice": "strand",
+  "note": ""
+ },
+ "23": {
+  "choice": "grow",
+  "note": ""
+ },
+ "24": {
+  "choice": "eight-explained",
+  "note": "yes the preparation and thinking and proof of concepts first ui design guidelines what we want to do all the confincing from my own experience self training build apps and work already done on production off my own accord that ran and deployed successfully plus build a showcase for them, [an earlier project] and ongoing open project"
+ },
+ "25": {
+  "choice": "sa-context",
+  "note": ""
+ }
+}
+</script>
+<script>
+(function () {
+  var DATA = JSON.parse(document.getElementById('questions-data').textContent);
+  var ANSWERS = JSON.parse(document.getElementById('answers-data').textContent);
+  var host = document.getElementById('question-list');
+  function make(tag, cls, html) { var n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  DATA.groups.forEach(function (g) {
+    host.appendChild(make('h4', null, g.name));
+    var wrap = make('div', 'cards');
+    g.questions.forEach(function (q) {
+      var mine = ANSWERS[q.id] || {};
+      var a = make('article', 'card q'); a.id = 'q' + q.id;
+      var head = make('header');
+      head.appendChild(make('span', 'num', q.id));
+      head.appendChild(make('h3', null, q.q));
+      head.appendChild(make('span', 'chip answered', 'Answered'));
+      a.appendChild(head);
+      a.appendChild(make('p', 'plain', q.plain));
+      var dl = make('dl', 'kv');
+      dl.appendChild(make('dt', null, 'Why it matters')); dl.appendChild(make('dd', null, q.why));
+      dl.appendChild(make('dt', null, 'Eliminates')); dl.appendChild(make('dd', null, q.eliminates));
+      a.appendChild(dl);
+      var fs = make('fieldset', 'answers');
+      fs.appendChild(make('legend', 'label', 'Possible answers'));
+      q.answers.forEach(function (ans) {
+        var lab = make('label', 'ans');
+        var inp = make('input'); inp.type = 'radio'; inp.name = 'q' + q.id; inp.disabled = true; inp.checked = ans.key === mine.choice;
+        lab.appendChild(inp);
+        var body = make('span', 'ans-body');
+        body.appendChild(make('strong', null, ans.label));
+        body.appendChild(make('span', 'good', '<b>Good</b> ' + ans.good));
+        body.appendChild(make('span', 'catch', '<b>Catch</b> ' + ans.catch));
+        lab.appendChild(body); fs.appendChild(lab);
+      });
+      a.appendChild(fs);
+      if (mine.note) {
+        var note = make('div', 'note');
+        note.appendChild(make('span', 'label', mine.choice ? 'My own words' : 'My own words, in place of a pick'));
+        note.appendChild(make('blockquote', null, esc(mine.note)));
+        a.appendChild(note);
+      }
+      wrap.appendChild(a);
+    });
+    host.appendChild(wrap);
+  });
+})();
+</script>
+</body>
+</html>
