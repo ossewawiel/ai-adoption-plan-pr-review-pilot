@@ -4,7 +4,7 @@
 
 ## 🛠️ Where I'm coming from
 
-I've spent the past eight months doing exactly this at my current employer, replacing an old C++ desktop client with a web application. The first six weeks or so held no product code: proofs of concept, design guidelines, and a showcase that won the go-ahead. Then the numbers moved, and they climbed every month as we put more rules and checks around the AI.
+Before any of this was my job, I spent a year and a half using AI coding tools on my own time, learning the hard way. For the past eight months I've done it for real at my current employer, replacing an old C++ desktop client with a web application. The first six weeks held no product code: proofs of concept, design guidelines, and a showcase that won the go-ahead. Then the numbers moved, and they climbed every month as we put more rules and checks around the AI.
 
 | 8 | 3,437 | 85 → 1,165 | 4 lanes · 18 gates |
 |:---:|:---:|:---:|:---:|
