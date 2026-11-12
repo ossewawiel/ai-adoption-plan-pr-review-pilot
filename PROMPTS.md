@@ -127,6 +127,12 @@ just mention me as the project manager leading the operation as part of the 8, a
 stake holder engagement meetings with the executive team
 ```
 
+### Wording that suits the place
+
+Apart from these prompts, I had the wording of the plan adjusted to suit where it will be read: plain
+South African English for a South African team. The plan asks the same of the weekly bulletin, which
+must sound like the people who read it.
+
 ## Step 4: the verification prompts
 
 The build prompt says "check each figure against its primary source". Claude did that by briefing
