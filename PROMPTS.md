@@ -106,6 +106,20 @@ the 6 weeks is confirmed but mention the prior year and a lave using it in perso
 improve productivity and learn and gain experience the hard way. carry on
 ```
 
+### Prompt 4: the second fact only I could supply
+
+Why: the plan said "8 contributors" from a git count, and the AI kept flagging that it could not
+tell whether that meant eight people. Who they are turned out to be the better story.
+
+```text
+the eight contributers. you can mention 1 is junior that needed upskilling and guidence regarding
+ai where the harnes as plugin was used to get the ball rolling. the 4 senior devs got on the
+programm quickly understood the harness and helped eventually to shape it further. i am the fith.
+then 2 non developers the product manager or operations director and the team manager both now
+contribute via the harness not having to know or understand the code architecture or harness
+itself.
+```
+
 ## Step 4: the verification prompts
 
 The build prompt says "check each figure against its primary source". Claude did that by briefing
