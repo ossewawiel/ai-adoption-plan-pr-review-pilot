@@ -2,80 +2,72 @@
 
 # AI in D&E: make it work, then make it better
 
-## 🛠️ Where I'm coming from
+## Where I'm coming from
 
-Before this was my job, I spent a year and a half using AI coding tools on my own time, learning the hard way. For the past eight months I've done it for real at my current employer, replacing an old C++ desktop client with a web application. The first six weeks held no product code: proofs of concept, design guidelines, and a showcase that won the go-ahead. Then the numbers moved, climbing every month as we put more rules and checks around the AI.
+For a year and a half I used AI coding tools in my own time, and I learned the hard way what works and what does not. For the past eight months I have been doing it at my current employer, where we are busy replacing an old C++ desktop client with a web application. In the first six weeks we wrote no product code. We built proofs of concept, design guidelines and a showcase that convinced management to go ahead. After that the numbers started to climb, every month, as we put more rules and checks around the AI.
 
 | 8 | 3,437 | 85 → 1,165 | 4 lanes · 18 gates |
 |:---:|:---:|:---:|:---:|
 | contributors | commits | commits a month, May to October | between an agent's change and the main branch |
 
-**Who the eight are.** Four senior developers took to the harness fast and now help shape it. I'm the fifth: the project manager leading the work, with regular stakeholder meetings with the executive team. One junior needed upskilling; the plugin was the way in. Two non-developers, a product lead and the team manager, contribute through it without knowing the code.
+**Who the eight are.** I am the project manager and I lead the work, with regular stakeholder meetings with the executive team. Four senior developers got on the programme quickly and now help to shape the plugin that carries those rules. One junior needed upskilling, and the plugin got the ball rolling there. The other two are not developers, a product lead and the team manager, and they contribute through the plugin without having to know the code.
 
-> **The honest caveat.** That was eight people on brand-new code, in Kotlin. You have 60 developers on .NET systems with history. So I checked the lesson against outside evidence.
+> **To be honest about it.** That was eight people on new code, in Kotlin. You have 60 developers on existing .NET systems. So I did not want to trust only my own experience, and I went to look at the hard evidence.
 
-## 🔎 What the evidence says
+## What the evidence says
 
-- **AI is an amplifier.** [DORA 2025](https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf) asked nearly 5,000 people: AI magnifies what a strong organisation does well and a struggling one does badly. Throughput goes up; so does instability.
-- **Feeling fast isn't being fast.** In [METR's early-2025 trial](https://arxiv.org/abs/2507.09089), experienced developers reckoned AI made them 20% faster; the stopwatch said they took 19% longer. METR now calls that result out of date, but the lesson holds: measure, don't guess.
-- **The ones who got far built the rails first.** [Spotify](https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1) has merged more than 1,500 agent-written pull requests, starting with migrations. At [Stripe](https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2), over 1,300 a week are agent-written, each reviewed by a person.
+- AI makes a team more of what it already is. [DORA 2025](https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf) asked nearly 5,000 people. Strong organisations get stronger with AI and struggling ones see their problems grow. Teams deliver more, but delivery also becomes less stable.
+- Feeling faster is not the same as being faster. In [METR's trial](https://arxiv.org/abs/2507.09089) early in 2025, experienced developers believed AI made them 20% faster, but the measurements showed they took 19% longer. METR says the result is out of date by now. The lesson I take from it is that we must measure.
+- The companies that got far built the rails first. [Spotify](https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1) has already merged more than 1,500 pull requests written by agents, and it started with migrations. At [Stripe](https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2) it is more than 1,300 a week, and a person reviews every one.
 
-## 🧰 The stance: one company plugin
+## The stance: one company plugin
 
-Picture a developer's first morning. They install one thing, and from then on their AI assistant knows our standards, refuses to open the secrets file, and reports what it costs. That one thing is a Claude Code **plugin**: rules, skills (ready-made recipes) and automatic checks, owned by a small AI platform team and locked on by central settings. It's the toolbox bolted to every bakkie: same tools, same safety gear, whoever's driving. The standard is enforced by the tool, not by a memo.
+Think of a new developer on the first morning. They install one thing, and from then on their AI assistant already knows our standards, will not open the secrets file, and reports what it costs. That one thing is a Claude Code **plugin**: a package of rules, skills (ready-made recipes) and automatic checks. A small AI platform team owns it, and central settings keep it switched on. It is like the toolbox that is bolted to every bakkie, with the same tools and safety gear no matter who drives. In this way the tool itself enforces the standard, and we do not have to rely on a memo.
 
 > [!IMPORTANT]
-> **North star: agents write. People own the specs, the architecture and the review.** A person stays accountable at every step, and speed without gates costs you stability.
+> **North star: agents write the code, and people own the specs, the architecture and the review.** A person stays accountable at every step, and the evidence shows that speed without gates costs stability.
 
-## 🗺️ 1a. Roadmap, and the first 90 days up close
+## 1a. Roadmap, and the first 90 days up close
 
 | When | What ships |
 |---|---|
-| 🌱 Month 3 | **Plugin 1, the strong starter,** on a pilot group: review and test skills, BA skills for Scrum and Jira, guard rails, the metrics export, and an *Issue lane* (an agent makes a small fix, a person approves it) |
-| 🌿 Month 6–9 | Plugin 1 on every team. **Plugin 2:** design-first pipelines for small UI and API work |
-| 🌳 Month 12 | **Plugin 3** on pilot teams: the full *Feature lane*. One C++ to C# migration stream starts |
-| 🤝 Month 18 | **The promise:** small fixes, tests and migrations are agent-written and human-approved on every team |
-| 🏆 Beyond | **The prize:** spec to pull request, agent-driven by default. No date on this one |
+| 🌱 Month 3 | **Plugin 1, a strong starter,** for a pilot group: review and test skills, BA skills for Scrum and Jira, guard rails, the metrics export, and an *Issue lane* (an agent makes a small fix and a person approves it) |
+| 🌿 Month 6–9 | Plugin 1 on every team. **Plugin 2:** pipelines for small UI and API work where the design comes first, with design skills (shared building blocks, brand rules, a critic step) so that screens built by AI still look like one product |
+| 🌳 Month 12 | **Plugin 3** on pilot teams, with the full *Feature lane*. One C++ to C# migration stream starts |
+| 🤝 Month 18 | **The promise:** on every team, small fixes, tests and migrations are written by agents and approved by people |
+| 🏆 Beyond | **The ultimate prize:** from spec to pull request, done by agents by default. At this stage I am not putting a date on it |
 
 | Weeks 1–2 · measure | Weeks 3–6 · start small | Weeks 7–12 · prove it |
 |---|---|---|
-| Baseline from git, Jira and the pipelines. First survey. The security pack goes in. | A pilot group of 6 to 8: one product team with its QA and BA. Plugin 1 in daily use. First workshop. | The Issue lane runs. First scorecard against the baseline. Second survey. Then we decide: widen, adjust or stop. |
+| We take the baseline from git, Jira and the pipelines, run the first survey and hand in the security pack. | A pilot group of 6 to 8 starts: one product team with its QA and BA. They use Plugin 1 every day, and we hold the first workshop. | The Issue lane runs. We publish the first scorecard against the baseline, run the second survey, and then decide to widen, adjust or stop. |
 
-**Why start at review and testing?** Copilot already helps there, so it's a small first step. Gates must exist before speed arrives: you get the fire right before the meat goes on. And the pilot in this repo *is* a review tool, a working piece of Plugin 1.
+**Why start at review and testing?** Copilot already helps there, so it is a small first step. The gates must also be in place before the speed arrives. It is like a braai, where you get the fire right before the meat goes on. And the pilot in this repo is a review tool, so it is already a working piece of Plugin 1.
 
-**Build, buy or SaaS?** Buy the model and the agent runtime. Build only the thin layer that holds *our* standards: the plugin. Take SaaS only when the vendor passes the same security pack. Three questions settle it: does it set us apart, does data leave South Africa, what does it cost to leave?
+**Build, buy or SaaS?** We buy the model and the agent runtime. We build only the thin layer that holds our own standards, and that is the plugin. We take SaaS only when the vendor passes the same security pack. Three questions decide it: does it set us apart, does data leave South Africa, and what will it cost us to leave again?
 
-## 🔐 1b. Rolling out Claude Code under strict security
+## 1b. Rolling out Claude Code under strict security
 
-Security's first question will be *"what leaves the building?"*, so the pack starts there:
+The first thing security will ask is what leaves the building, so the pack starts there:
 
 1. A picture of exactly what leaves a developer's machine, and where it goes.
 2. The vendor's retention terms, in writing.
-3. Our answer to POPIA section 72. Personal information may not go to a third party in a foreign country unless a listed ground applies, and location information counts as personal. Plan on the model running outside South Africa, so **no personal information reaches a prompt**. The pilot shows how.
-4. The managed settings: what the agent may read and run, the plugin lock, the usage export.
-5. The pilot's scope, and how we switch it off.
+3. Our answer to POPIA section 72. Personal information may not go to a third party in a foreign country unless one of the listed grounds applies, and location information counts as personal. We must plan for the model running outside South Africa, so **no personal information may reach a prompt**. The pilot shows how.
+4. The managed settings: what the agent may read and run, the plugin lock, and the usage export.
+5. The scope of the pilot, and how we switch it off.
 
-| Risk I expect | What stops it |
-|---|---|
-| Personal data or secrets in a prompt | A redaction step, and a hook that blocks the read |
-| Instructions hidden in repo content | Code is treated as data; a person reviews every change |
-| An agent with too many permissions | Managed settings: a short allow-list, no bypass mode |
-| Runaway cost | A model pinned to each job; spend on the scorecard |
-| Tools nobody approved | Only the approved plugin source is allowed |
+**The risks I expect** are personal data or secrets in a prompt, instructions hidden in repo content, an agent with too many permissions, cost that runs away, and tools that nobody approved. The pack names a control for each one.
 
-**The house rules.** ① No personal information or secrets in a prompt. ② A person reviews and owns every change; an agent never approves its own work. ③ Agent code passes the same pipeline gates as everyone else's. ④ Approved tools, models and plugins only. ⑤ Say when an agent wrote it.
+**The house rules.** ① No personal information or secrets in a prompt. ② A person reviews and owns every change, and an agent never approves its own work. ③ Agent code goes through the same pipeline gates as everybody else's. ④ Only approved tools, models and plugins. ⑤ Say so when an agent wrote it.
 
-**Making them stick.** Strongest first: 🔒 managed settings → 🪝 hooks that block → 🚧 build gates → 👀 human review. A missing rule gets a rule and a check, not a reminder email.
+**Making them stick.** From strongest to weakest: 🔒 managed settings → 🪝 hooks that block → 🚧 build gates → 👀 human review. When a rule is missing, we add the rule and a check for it.
 
-**Rollout and stepping out.** The pilot group learns on its own tickets, not on slides. Each later team gets a champion the pilot group trained. I'm done when: ✅ D&E people run the plugin releases ✅ every team has a champion ✅ someone else publishes the scorecard.
+**Rollout and stepping out.** The pilot group learns by doing its own tickets with the plugin. Each new team then gets a champion trained by the pilot group. I can step out when: ✅ D&E people run the plugin releases ✅ every team has a champion ✅ somebody else publishes the scorecard.
 
-**Bring the people along.** 📰 *Weekly*, a bulletin: AI drafts it from the merge history, a person presses send, and it sounds like us. It teases the work, never the person. 🛠️ *Monthly*, a workshop: one thing that worked, one that flopped. 🌡️ *Quarterly*, a survey on confidence, friction and trust.
+**Bring the people along.** 📰 *Every week* a short bulletin goes out. AI drafts it from the merge history, a person sends it, and it sounds like us. It may tease the work but never the person. 🛠️ *Every month* a team shows one thing that worked and one that did not, in a workshop. 🌡️ *Every quarter* we run a survey on confidence, friction and trust.
 
-**Copilot.** It stays until Claude Code is approved. The pilot group runs both for one cycle and reports the difference. Teams move over at licence renewal, so nobody pays twice for long.
+**Copilot.** It stays until Claude Code is approved. The pilot group then uses both for one cycle and reports the difference. Teams move over at licence renewal, so nobody pays double for long.
 
-**Design.** Plugin 2 carries design skills: one library of screen building blocks and brand rules, plus a critic step, so AI-built screens look like one product.
-
-## 📊 1c. Measuring adoption, value, quality and cost
+## 1c. Measuring adoption, value, quality and cost
 
 | Axis | What we track |
 |---|---|
@@ -86,12 +78,12 @@ Security's first question will be *"what leaves the building?"*, so the pack sta
 | 💰 Cost | Spend per developer; cost per merged change |
 | 🌡️ Feeling | The quarterly survey |
 
-Borrowed from DORA and SPACE, plus what only AI work needs. Each team sees its own card. No league table; this isn't the Currie Cup.
+We borrowed from DORA and SPACE and added what only AI work needs. Each team sees its own card, and there is no league table. This is not the Currie Cup.
 
-**Baseline and return.** Four to six weeks of history set the baseline, and the pilot group is compared with teams that haven't started. Then: `return = hours saved × loaded cost − licences − platform team`. I report measured speed, not felt speed.
+**Baseline and return.** Four to six weeks of history give us the baseline, and we compare the pilot group with teams that have not started. Then `return = hours saved × loaded cost − licences − platform team`.
 
-**Helping a team that struggles.** 🚦 A red robot on a team's card means "send help", not "send blame". Low use and low trust gets pairing time. High use with rising failures gets tighter gates. High cost per change gets a look at the model mix.
+**Helping a team that struggles.** 🚦 A red robot on a team's card means the team needs help. It is not there to blame anybody. With low use and low trust, we pair with them. With high use and more failures, we tighten the gates. With a high cost per change, we look at the model mix.
 
-**Tiered models are the cost lever.** Price follows model size: on short prompts Sonnet 5.5 costs about 20× Haiku 5.5, and Opus 5.5 about 40× ([Anthropic's price list](https://platform.claude.com/docs/en/about-claude/pricing), 11 November 2026). So the plugin pins a size to each job: small for checks, middle for daily work, large to plan and judge. My project runs 7 small, 9 middle and 4 large agents.
+**Tiered models are the cost lever.** On short prompts Sonnet 5.5 costs about 20× what Haiku 5.5 costs, and Opus 5.5 about 40× ([Anthropic's price list](https://platform.claude.com/docs/en/about-claude/pricing), 11 November 2026). That is why the plugin pins a size to each job: small for checks, middle for daily work, and large to plan and judge. My project runs 7 small, 9 middle and 4 large agents.
 
-**What I'm assuming.** Security approval lands by about week 3; if later, the dates slide and the pilot group applies the same standards with Copilot. Tests and pipelines are in fair shape; if not, tests come first. The company holds customer location data, so POPIA applies; compliance confirms any other regulator.
+**What I am assuming.** Security approval comes by about week 3. If it is later, we make a plan: the dates move and the pilot group applies the same standards with Copilot. Tests and pipelines are in a fair state. If not, tests come first. The company holds customer location data, so POPIA applies, and compliance must confirm any other regulator.

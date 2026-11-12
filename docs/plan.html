@@ -158,13 +158,13 @@ td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
   <main>
     <div class="eyebrow">AI adoption plan · for the Head of D&amp;E · illustrated edition of PLAN.md</div>
     <h1>AI in D&amp;E: make it work, then make it better</h1>
-    <p class="lede">One small platform team builds one plugin. Every team's AI tool loads it, so the guard rails, the know-how and the measuring all arrive together. We start at code review, prove it on one team, and widen when the numbers say so.</p>
+    <p class="lede">The plan in short: one small platform team builds one plugin, and every team's AI tool loads it. In that way the guard rails, the know-how and the measuring arrive together. We start at code review, prove it on one team first, and only widen when the numbers show that it works.</p>
 
     <section id="story">
       <span class="label">Where I'm coming from</span>
-      <h2>I've run this play, and the numbers moved</h2>
+      <h2>I have done this already, and the numbers show it</h2>
       <div class="prose">
-        <p>Before any of this was my job, I spent a year and a half using AI coding tools on my own time, learning the hard way. For the past eight months I've done it for real at my current employer, replacing an old C++ desktop client with a web application. The first six weeks held no product code: proofs of concept, design guidelines, and a showcase that won the go-ahead.</p>
+        <p>For a year and a half I used AI coding tools in my own time, and I learned the hard way what works and what does not. For the past eight months I have been doing it at my current employer, where we are busy replacing an old C++ desktop client with a web application. In the first six weeks we wrote no product code. We built proofs of concept, design guidelines and a showcase that convinced management to go ahead. After that the numbers started to climb.</p>
       </div>
       <div class="strip" role="group" aria-label="The project in numbers">
         <div><b>8</b><span>months</span></div>
@@ -175,9 +175,9 @@ td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
       </div>
       <h3 style="margin-top:24px">Who the eight are</h3>
       <div class="cards three">
-        <div class="card"><span class="big">5</span><strong>Senior developers.</strong> Four took to the harness fast and now help shape it. I'm the fifth: the project manager leading the work, with regular stakeholder meetings with the executive team.</div>
-        <div class="card"><span class="big">1</span><strong>Junior developer.</strong> Needed upskilling, and the plugin was the way in.</div>
-        <div class="card"><span class="big">2</span><strong>Non-developers.</strong> A product lead and the team manager now contribute through the harness without needing to know the code.</div>
+        <div class="card"><span class="big">5</span><strong>Four senior developers, and me.</strong> The four got on the programme quickly and now help to shape the plugin. I am the project manager and I lead the work, with regular stakeholder meetings with the executive team.</div>
+        <div class="card"><span class="big">1</span><strong>Junior developer.</strong> Needed upskilling, and the plugin got the ball rolling there.</div>
+        <div class="card"><span class="big">2</span><strong>People who are not developers.</strong> A product lead and the team manager. They contribute through the plugin without having to know the code.</div>
       </div>
       <figure>
         <span class="label">Commits per month, May to October 2026</span>
@@ -200,7 +200,7 @@ td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
             <text x="364" y="240">Aug</text><text x="460" y="240">Sep</text><text x="556" y="240">Oct</text>
           </g>
         </svg>
-        <figcaption>The rate climbed every month, and not because anyone typed faster. It climbed because each month we put more rules and checks around the AI.</figcaption>
+        <figcaption>The numbers climbed every month. That was not because people typed faster. It was because each month we put more rules and checks around the AI.</figcaption>
         <details><summary>The same numbers as a table</summary>
           <table><tr><th>Month</th><th>Commits</th></tr>
             <tr><td>May</td><td class="n">85</td></tr><tr><td>June</td><td class="n">191</td></tr><tr><td>July</td><td class="n">436</td></tr>
@@ -208,27 +208,27 @@ td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
         </details>
       </figure>
       <div class="prose" style="margin-top:16px">
-        <p><strong>The honest caveat.</strong> That was eight people on brand-new code, in Kotlin. You have 60 developers on .NET systems with history. So I checked the lesson against outside evidence.</p>
+        <p><strong>To be honest about it.</strong> That was eight people on new code, in Kotlin. You have 60 developers on existing .NET systems. So I did not want to trust only my own experience, and I went to look at the hard evidence.</p>
       </div>
     </section>
 
     <section id="evidence">
       <span class="label">What the evidence says</span>
-      <h2>Three findings, and they point the same way</h2>
+      <h2>Three findings that point in the same direction</h2>
       <div class="cards three">
         <div class="card">
-          <h3>AI is an amplifier</h3>
-          <p>DORA 2025 asked nearly 5,000 people. AI magnifies what a strong organisation does well and what a struggling one does badly. Throughput goes up; so does instability.</p>
+          <h3>AI makes a team more of what it already is</h3>
+          <p>DORA 2025 asked nearly 5,000 people. Strong organisations get stronger with AI and struggling ones see their problems grow. Teams deliver more, but delivery also becomes less stable.</p>
           <p class="src"><a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">DORA, State of AI-assisted Software Development 2025</a></p>
         </div>
         <div class="card">
-          <h3>Feeling fast isn't being fast</h3>
-          <p>In METR's early-2025 trial, experienced developers reckoned AI had made them 20% faster. The stopwatch said they took 19% longer. METR now calls that result out of date, but the lesson holds: measure, don't guess.</p>
+          <h3>Feeling faster is not the same as being faster</h3>
+          <p>In METR's trial early in 2025, experienced developers believed AI made them 20% faster, but the measurements showed they took 19% longer. METR says the result is out of date by now. The lesson I take from it is that we must measure.</p>
           <p class="src"><a href="https://arxiv.org/abs/2507.09089">METR trial</a> · <a href="https://metr.org/blog/2026-02-24-uplift-update/">2026 update</a></p>
         </div>
         <div class="card">
-          <h3>The ones who got far built the rails first</h3>
-          <p>Spotify has merged more than 1,500 agent-written pull requests, starting with migrations. At Stripe, over 1,300 a week are agent-written, each reviewed by a person.</p>
+          <h3>The companies that got far built the rails first</h3>
+          <p>Spotify has already merged more than 1,500 pull requests written by agents, and it started with migrations. At Stripe it is more than 1,300 a week, and a person reviews every one.</p>
           <p class="src"><a href="https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1">Spotify</a> · <a href="https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2">Stripe</a></p>
         </div>
       </div>
@@ -237,9 +237,9 @@ td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
     <section id="stance">
       <span class="label">The stance</span>
       <h2>One company plugin</h2>
-      <p class="scene">Picture a developer's first morning. They install one thing, and from then on their AI assistant knows our standards, refuses to open the secrets file, and reports what it costs.</p>
+      <p class="scene">Think of a new developer on the first morning. They install one thing, and from then on their AI assistant already knows our standards, will not open the secrets file, and reports what it costs.</p>
       <div class="prose">
-        <p>That one thing is a Claude Code <strong>plugin</strong>: rules, skills (ready-made recipes for a task) and automatic checks, owned by a small AI platform team and locked on by central settings. It's the toolbox bolted to every bakkie: same tools, same safety gear, whoever's driving. The standard is enforced by the tool, not by a memo.</p>
+        <p>That one thing is a Claude Code <strong>plugin</strong>: a package of rules, skills (ready-made recipes) and automatic checks. A small AI platform team owns it, and central settings keep it switched on. It is like the toolbox that is bolted to every bakkie, with the same tools and safety gear no matter who drives. In this way the tool itself enforces the standard, and we do not have to rely on a memo.</p>
       </div>
       <figure>
         <svg viewBox="0 0 720 250" role="img" aria-label="Diagram: the AI platform team owns one plugin holding guard rails, skills, checks and the metrics export. Managed settings lock it on. Every team's Claude Code loads it.">
@@ -268,43 +268,43 @@ td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
               <rect x="552" y="103" width="160" height="44" rx="6" fill="var(--surface)" stroke="var(--line)"/><text x="632" y="130" text-anchor="middle">QA and BA</text>
               <rect x="552" y="166" width="160" height="44" rx="6" fill="var(--surface)" stroke="var(--line)"/><text x="632" y="193" text-anchor="middle">Every other team</text>
             </g>
-            <text x="632" y="232" text-anchor="middle" font-size="13" fill="var(--ink-2)">same tools, same safety gear</text>
+            <text x="632" y="232" text-anchor="middle" font-size="13" fill="var(--ink-2)">the same tools and safety gear</text>
           </g>
         </svg>
       </figure>
       <div class="star">
-        <b>North star: agents write. People own the specs, the architecture and the review.</b>
-        <p>A person stays accountable at every step, and speed without gates costs you stability.</p>
+        <b>North star: agents write the code, and people own the specs, the architecture and the review.</b>
+        <p>A person stays accountable at every step, and the evidence shows that speed without gates costs stability.</p>
       </div>
     </section>
 
     <section id="roadmap">
       <span class="label">1a. Roadmap</span>
-      <h2>Three plugin releases, one promise, one prize</h2>
+      <h2>Three plugin releases, then the promise and the prize</h2>
       <div class="ladder">
-        <div class="rung"><span class="when">Month 3</span><h3>Plugin 1: the strong starter</h3>On a pilot group. Review and test skills, BA skills for Scrum and Jira, guard rails, the metrics export, and an <em>Issue lane</em>: an agent makes a small fix, a person approves it.</div>
-        <div class="rung"><span class="when">Month 6–9</span><h3>Plugin 2</h3>Plugin 1 on every team. Design-first pipelines for small UI and API work.</div>
-        <div class="rung"><span class="when">Month 12</span><h3>Plugin 3</h3>On pilot teams: the full <em>Feature lane</em>. One C++ to C# migration stream starts.</div>
-        <div class="rung"><span class="when">Month 18</span><h3>The promise</h3>Small fixes, tests and migrations are agent-written and human-approved on every team.</div>
-        <div class="rung"><span class="when">Beyond</span><h3>The prize</h3>Spec to pull request, agent-driven by default. No date on this one.</div>
+        <div class="rung"><span class="when">Month 3</span><h3>Plugin 1: a strong starter</h3>For a pilot group. Review and test skills, BA skills for Scrum and Jira, guard rails, the metrics export, and an <em>Issue lane</em>, where an agent makes a small fix and a person approves it.</div>
+        <div class="rung"><span class="when">Month 6–9</span><h3>Plugin 2</h3>Plugin 1 on every team. Pipelines for small UI and API work where the design comes first.</div>
+        <div class="rung"><span class="when">Month 12</span><h3>Plugin 3</h3>On pilot teams, with the full <em>Feature lane</em>. One C++ to C# migration stream starts.</div>
+        <div class="rung"><span class="when">Month 18</span><h3>The promise</h3>On every team, small fixes, tests and migrations are written by agents and approved by people.</div>
+        <div class="rung"><span class="when">Beyond</span><h3>The ultimate prize</h3>From spec to pull request, done by agents by default. At this stage I am not putting a date on it.</div>
       </div>
 
       <h3 style="margin-top:28px">The first 90 days, up close</h3>
       <div class="cards three">
-        <div class="card"><span class="label">Weeks 1–2 · measure</span>Baseline from git, Jira and the pipelines. First survey. The security pack goes in.</div>
-        <div class="card"><span class="label">Weeks 3–6 · start small</span>A pilot group of 6 to 8: one product team with its QA and BA. Plugin 1 in daily use. First workshop.</div>
-        <div class="card"><span class="label">Weeks 7–12 · prove it</span>The Issue lane runs. First scorecard against the baseline. Second survey. Then we decide: widen, adjust or stop.</div>
+        <div class="card"><span class="label">Weeks 1–2 · measure</span>We take the baseline from git, Jira and the pipelines, run the first survey and hand in the security pack.</div>
+        <div class="card"><span class="label">Weeks 3–6 · start small</span>A pilot group of 6 to 8 starts: one product team with its QA and BA. They use Plugin 1 every day, and we hold the first workshop.</div>
+        <div class="card"><span class="label">Weeks 7–12 · prove it</span>The Issue lane runs. We publish the first scorecard against the baseline, run the second survey, and then decide to widen, adjust or stop.</div>
       </div>
 
       <div class="cards three" style="margin-top:24px; grid-template-columns: 1fr 1fr;">
-        <div class="card"><h3>Why start at review and testing?</h3><p>Copilot already helps there, so it's a small first step. Gates must exist before the speed arrives: you get the fire right before the meat goes on. And the pilot in this repo <em>is</em> a review tool, a working piece of Plugin 1.</p></div>
-        <div class="card"><h3>Build, buy or SaaS?</h3><p>Buy the model and the agent runtime. Build only the thin layer that holds <em>our</em> standards: the plugin. Take SaaS only when the vendor passes the same security pack. Three questions settle it: does it set us apart, does data leave South Africa, and what does it cost to leave?</p></div>
+        <div class="card"><h3>Why start at review and testing?</h3><p>Copilot already helps there, so it is a small first step. The gates must also be in place before the speed arrives. It is like a braai, where you get the fire right before the meat goes on. And the pilot in this repo is a review tool, so it is already a working piece of Plugin 1.</p></div>
+        <div class="card"><h3>Build, buy or SaaS?</h3><p>We buy the model and the agent runtime. We build only the thin layer that holds our own standards, and that is the plugin. We take SaaS only when the vendor passes the same security pack. Three questions decide it: does it set us apart, does data leave South Africa, and what will it cost us to leave again?</p></div>
       </div>
     </section>
 
     <section id="security">
       <span class="label">1b. Rolling out Claude Code under strict security</span>
-      <h2>Security's first question: what leaves the building?</h2>
+      <h2>The first thing security will ask: what leaves the building?</h2>
       <figure>
         <svg viewBox="0 0 720 236" role="img" aria-label="Diagram: on the developer's machine a code change passes a redaction step before a prompt is built. A hook blocks secrets, keys and production settings. Only the redacted prompt crosses to the model, which runs outside South Africa. The review comes back as text.">
           <defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--ink-2)"/></marker></defs>
@@ -343,19 +343,19 @@ td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
           <ol style="margin:6px 0 0; padding-left:20px;">
             <li>A picture of exactly what leaves a developer's machine, and where it goes.</li>
             <li>The vendor's retention terms, in writing.</li>
-            <li>Our answer to POPIA section 72. Personal information may not go to a third party in a foreign country unless a listed ground applies, and location information counts as personal. Plan on the model running outside South Africa, so <strong>no personal information reaches a prompt</strong>.</li>
-            <li>The managed settings: what the agent may read and run, the plugin lock, the usage export.</li>
-            <li>The pilot's scope, and how we switch it off.</li>
+            <li>Our answer to POPIA section 72. Personal information may not go to a third party in a foreign country unless one of the listed grounds applies, and location information counts as personal. We must plan for the model running outside South Africa, so <strong>no personal information may reach a prompt</strong>.</li>
+            <li>The managed settings: what the agent may read and run, the plugin lock, and the usage export.</li>
+            <li>The scope of the pilot, and how we switch it off.</li>
           </ol>
         </div>
         <div class="card">
-          <h3>Risks I expect, and what stops each one</h3>
+          <h3>The risks I expect, and the control for each one</h3>
           <table>
             <tr><td>Personal data or secrets in a prompt</td><td>A redaction step, and a hook that blocks the read</td></tr>
-            <tr><td>Instructions hidden in repo content</td><td>Code is treated as data; a person reviews every change</td></tr>
-            <tr><td>An agent with too many permissions</td><td>Managed settings: a short allow-list, no bypass mode</td></tr>
-            <tr><td>Runaway cost</td><td>A model pinned to each job; spend on the scorecard</td></tr>
-            <tr><td>Tools nobody approved</td><td>Only the approved plugin source is allowed</td></tr>
+            <tr><td>Instructions hidden in repo content</td><td>Code is treated as data, and a person reviews every change</td></tr>
+            <tr><td>An agent with too many permissions</td><td>Managed settings with a short allow-list and no bypass mode</td></tr>
+            <tr><td>Cost that runs away</td><td>A model pinned to each job, and spend on the scorecard</td></tr>
+            <tr><td>Tools that nobody approved</td><td>Only the approved plugin source is allowed</td></tr>
           </table>
         </div>
       </div>
@@ -363,34 +363,34 @@ td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
       <h3 style="margin-top:28px">The house rules</h3>
       <ol class="rules">
         <li>No personal information or secrets in a prompt.</li>
-        <li>A person reviews and owns every change. An agent never approves its own work.</li>
-        <li>Agent code passes the same pipeline gates as everyone else's.</li>
-        <li>Approved tools, models and plugins only.</li>
-        <li>Say when an agent wrote it.</li>
+        <li>A person reviews and owns every change, and an agent never approves its own work.</li>
+        <li>Agent code goes through the same pipeline gates as everybody else's.</li>
+        <li>Only approved tools, models and plugins.</li>
+        <li>Say so when an agent wrote it.</li>
       </ol>
 
-      <h3 style="margin-top:28px">Making them stick: four layers, strongest first</h3>
+      <h3 style="margin-top:28px">Making them stick: four layers, from strongest to weakest</h3>
       <ul class="layers">
-        <li><strong>Managed settings</strong> nobody can override</li>
+        <li><strong>Managed settings</strong> that nobody can override</li>
         <li><strong>Hooks</strong> that block an action before it happens</li>
         <li><strong>Gates</strong> that fail a build</li>
         <li><strong>Review</strong> by a person</li>
       </ul>
-      <p class="caption">A missing rule gets a rule and a check, not a reminder email.</p>
+      <p class="caption">When a rule is missing, we add the rule and a check for it. A reminder email does not fix it.</p>
     </section>
 
     <section id="people">
       <span class="label">1b, continued. People, rollout and Copilot</span>
       <h2>Bring the people along</h2>
       <div class="cards three">
-        <div class="card"><span class="big">Weekly</span>A short bulletin: AI drafts it from the merge history, a person presses send, and it sounds like us. It teases the work, never the person.</div>
-        <div class="card"><span class="big">Monthly</span>A workshop: one thing that worked, one that flopped.</div>
-        <div class="card"><span class="big">Quarterly</span>A survey on confidence, friction and trust.</div>
+        <div class="card"><span class="big">Every week</span>A short bulletin goes out. AI drafts it from the merge history, a person sends it, and it sounds like us. It may tease the work but never the person.</div>
+        <div class="card"><span class="big">Every month</span>A team shows one thing that worked and one that did not, in a workshop.</div>
+        <div class="card"><span class="big">Every quarter</span>We run a survey on confidence, friction and trust.</div>
       </div>
       <div class="cards three" style="margin-top:16px">
-        <div class="card"><h3>Rollout and stepping out</h3><p>The pilot group learns on its own tickets, not on slides. Each later team gets a champion the pilot group trained. I'm done when D&amp;E people run the plugin releases, every team has a champion, and someone else publishes the scorecard.</p></div>
-        <div class="card"><h3>Copilot</h3><p>It stays until Claude Code is approved. The pilot group runs both for one cycle and reports the difference. Teams move over at licence renewal, so nobody pays twice for long.</p></div>
-        <div class="card"><h3>Design</h3><p>Plugin 2 carries design skills: one library of screen building blocks and brand rules, plus a critic step, so AI-built screens look like one product.</p></div>
+        <div class="card"><h3>Rollout and stepping out</h3><p>The pilot group learns by doing its own tickets with the plugin. Each new team then gets a champion trained by the pilot group. I can step out when D&amp;E people run the plugin releases, every team has a champion, and somebody else publishes the scorecard.</p></div>
+        <div class="card"><h3>Copilot</h3><p>It stays until Claude Code is approved. The pilot group then uses both for one cycle and reports the difference. Teams move over at licence renewal, so nobody pays double for long.</p></div>
+        <div class="card"><h3>Design</h3><p>Plugin 2 brings design skills: one library of screen building blocks and brand rules, with a critic step, so that screens built by AI still look like one product.</p></div>
       </div>
     </section>
 
@@ -407,39 +407,40 @@ td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
           <tr><td><strong>Cost</strong></td><td>Spend per developer; cost per merged change</td></tr>
           <tr><td><strong>Feeling</strong></td><td>The quarterly survey</td></tr>
         </table>
-        <figcaption>Borrowed from DORA and SPACE, plus what only AI work needs. Each team sees its own card. This isn't the Currie Cup.</figcaption>
+        <figcaption>We borrowed from DORA and SPACE and added what only AI work needs. Each team sees its own card, and there is no league table. This is not the Currie Cup.</figcaption>
       </figure>
 
       <div class="cards" style="grid-template-columns: 1fr 1fr; align-items: start;">
         <div class="card">
           <h3>Baseline and return</h3>
-          <p>Four to six weeks of history set the baseline, and the pilot group is compared with teams that haven't started.</p>
+          <p>Four to six weeks of history give us the baseline, and we compare the pilot group with teams that have not started.</p>
           <p><code>return = hours saved × loaded cost − licences − platform team</code></p>
-          <p>I report measured speed, not felt speed.</p>
+          <p>I report the measured speed and not how fast it feels.</p>
         </div>
         <div class="card">
-          <h3>A red robot means "send help", not "send blame"</h3>
+          <h3>A red robot means the team needs help</h3>
+          <p>It is not there to blame anybody.</p>
           <div class="help">
-            <div><span class="robot red" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>Low use, low trust</strong> gets pairing time.</span></div>
-            <div><span class="robot red" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>High use, rising failure rate</strong> gets tighter gates.</span></div>
-            <div><span class="robot amber" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>High cost per change</strong> gets a look at the model mix.</span></div>
+            <div><span class="robot red" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>Low use and low trust:</strong> we pair with them.</span></div>
+            <div><span class="robot red" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>High use and more failures:</strong> we tighten the gates.</span></div>
+            <div><span class="robot amber" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>A high cost per change:</strong> we look at the model mix.</span></div>
           </div>
         </div>
       </div>
 
       <figure>
         <span class="label">Tiered models are the cost lever · relative price on short prompts</span>
-        <div class="tier"><span><strong>Small</strong> · Haiku 5.5<br><span class="v">runs the checks</span></span><div><div class="bar" style="width:2.5%"></div></div><span class="v">1× · 7 agents</span></div>
-        <div class="tier"><span><strong>Middle</strong> · Sonnet 5.5<br><span class="v">does the daily work</span></span><div><div class="bar" style="width:50%"></div></div><span class="v">20× · 9 agents</span></div>
-        <div class="tier"><span><strong>Large</strong> · Opus 5.5<br><span class="v">plans and judges</span></span><div><div class="bar" style="width:100%"></div></div><span class="v">40× · 4 agents</span></div>
-        <figcaption>Price follows model size, so the plugin pins a size to each job. Prices from <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic's price list</a>, 11 November 2026. The agent counts are from my project.</figcaption>
+        <div class="tier"><span><strong>Small</strong> · Haiku 5.5<br><span class="v">for the checks</span></span><div><div class="bar" style="width:2.5%"></div></div><span class="v">1× · 7 agents</span></div>
+        <div class="tier"><span><strong>Middle</strong> · Sonnet 5.5<br><span class="v">for the daily work</span></span><div><div class="bar" style="width:50%"></div></div><span class="v">20× · 9 agents</span></div>
+        <div class="tier"><span><strong>Large</strong> · Opus 5.5<br><span class="v">to plan and judge</span></span><div><div class="bar" style="width:100%"></div></div><span class="v">40× · 4 agents</span></div>
+        <figcaption>The price follows the size of the model. That is why the plugin pins a size to each job. Prices from <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic's price list</a>, 11 November 2026. The agent counts are from my project.</figcaption>
       </figure>
     </section>
 
     <section id="pilot">
       <span class="label">The pilot in this repository</span>
       <h2>One working piece of Plugin 1</h2>
-      <div class="prose"><p>The review assistant in <code>src/</code> is the plan in miniature: a change goes in, sensitive values come out before any prompt exists, and a person gets advice, not a verdict.</p></div>
+      <div class="prose"><p>The review assistant in <code>src/</code> is the plan in small. A change goes in, the sensitive values are taken out before any prompt exists, and a person gets advice. The decision stays with the person.</p></div>
       <div class="flow">
         <div class="step"><span class="no">1</span><b>Read</b>the change set</div>
         <div class="step"><span class="no">2</span><b>Redact</b>secrets and personal information</div>
@@ -452,13 +453,13 @@ td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
     </section>
 
     <section id="assume">
-      <span class="label">What I'm assuming</span>
+      <span class="label">What I am assuming</span>
       <h2>Four assumptions</h2>
       <div class="cards" style="grid-template-columns: 1fr 1fr;">
-        <div class="card">Security approval lands by about week 3. If later, the dates slide and the pilot group applies the same standards with Copilot.</div>
-        <div class="card">Tests and pipelines are in fair shape. If not, tests come first.</div>
-        <div class="card">The company holds customer location data, so POPIA applies. Compliance confirms any other regulator.</div>
-        <div class="card">The milestones run to month 12. Month 18 is where they lead.</div>
+        <div class="card">Security approval comes by about week 3. If it is later, we make a plan: the dates move and the pilot group applies the same standards with Copilot.</div>
+        <div class="card">Tests and pipelines are in a fair state. If not, tests come first.</div>
+        <div class="card">The company holds customer location data, so POPIA applies, and compliance must confirm any other regulator.</div>
+        <div class="card">The milestones run to month 12, as the brief asks. Month 18 is where they lead to.</div>
       </div>
 
       <div class="method">
@@ -471,7 +472,7 @@ td.n { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
           <li><a href="https://www.gov.za/sites/default/files/gcis_document/201409/3706726-11act4of2013popi.pdf">Protection of Personal Information Act 4 of 2013</a>, sections 1 and 72</li>
           <li><a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic pricing</a> · <a href="https://code.claude.com/docs/en/plugins/org">Claude Code plugins for organisations</a> · <a href="https://code.claude.com/docs/en/monitoring-usage">Claude Code usage monitoring</a></li>
         </ul>
-        <p style="margin-top:10px">This is the illustrated edition of <a href="../PLAN.md">PLAN.md</a>. The words are the same; the pictures are extra.</p>
+        <p style="margin-top:10px">This is the illustrated edition of <a href="../PLAN.md">PLAN.md</a>. The plan is the same. The pictures are extra.</p>
       </div>
     </section>
   </main>
