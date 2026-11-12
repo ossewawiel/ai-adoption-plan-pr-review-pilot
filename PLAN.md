@@ -4,13 +4,13 @@
 
 ## 🛠️ Where I'm coming from
 
-Before any of this was my job, I spent a year and a half using AI coding tools on my own time, learning the hard way. For the past eight months I've done it for real at my current employer, replacing an old C++ desktop client with a web application. The first six weeks held no product code: proofs of concept, design guidelines, and a showcase that won the go-ahead. Then the numbers moved, climbing every month as we put more rules and checks around the AI.
+Before this was my job, I spent a year and a half using AI coding tools on my own time, learning the hard way. For the past eight months I've done it for real at my current employer, replacing an old C++ desktop client with a web application. The first six weeks held no product code: proofs of concept, design guidelines, and a showcase that won the go-ahead. Then the numbers moved, climbing every month as we put more rules and checks around the AI.
 
 | 8 | 3,437 | 85 → 1,165 | 4 lanes · 18 gates |
 |:---:|:---:|:---:|:---:|
 | contributors | commits | commits a month, May to October | between an agent's change and the main branch |
 
-**Who the eight are.** Four senior developers took to the harness fast and now help shape it; I'm the fifth. One junior needed upskilling, and the plugin was the way in. And two non-developers, a product lead and the team manager, now contribute through it without needing to know the code.
+**Who the eight are.** Four senior developers took to the harness fast and now help shape it. I'm the fifth: the project manager leading the work, with regular stakeholder meetings with the executive team. One junior needed upskilling; the plugin was the way in. Two non-developers, a product lead and the team manager, contribute through it without knowing the code.
 
 > **The honest caveat.** That was eight people on brand-new code, in Kotlin. You have 60 developers on .NET systems with history. So I checked the lesson against outside evidence.
 

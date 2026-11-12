@@ -120,6 +120,13 @@ contribute via the harness not having to know or understand the code architectur
 itself.
 ```
 
+And a follow-up, once I had read the result:
+
+```text
+just mention me as the project manager leading the operation as part of the 8, also doing regular
+stake holder engagement meetings with the executive team
+```
+
 ## Step 4: the verification prompts
 
 The build prompt says "check each figure against its primary source". Claude did that by briefing
